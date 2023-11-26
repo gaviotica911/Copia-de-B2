@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Fragmento</title>
+    
+</head>
+<body>
+    <div th:fragment="TiposUsuarioForm(titulo)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form>
+            <select class="form-control" id="tipo"
+            name="tipo" required>
+                <option value="CLIENTE" th:selected="${tiposUsuario.tipo eq 'cliente'}">Cliente</option>
+                <option value="ADMINISTRADOR" th:selected="${tiposUsuario.tipo eq 'administrador'}">Administrador</option>
+                <option value="RECEPCIONISTA" th:selected="${tiposUsuario.tipo eq 'recepcionista'}">Recepcionista</option>
+                <option value="EMPLEADO" th:selected="${tiposUsuario.tipo eq 'empleado'}">Empleado</option>
+                <option value="GERENTE" th:selected="${tiposUsuario.tipo eq 'gerente'}">Gerente</option>
+            </select>
+            <label class="col-form-label">descripcion</label>
+            <input class="form-control" type="text" id="descripcion"
+            name="descripcion" required th:value="${tiposUsuario.descripcion}"/>
+            <div class="text_center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/tiposUsuario}" class="btn btn-primary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+
+    
+</body>
+</html>

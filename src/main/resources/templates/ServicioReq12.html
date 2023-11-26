@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Servicios</title>
+</head>
+<body>
+    <div>ENCONTRAR LOS CLIENTES ESTRELLA</div>
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nombre Cliente</th>
+                <th>Id</th>
+                <th>Cedula</th>
+
+            </tr>
+        </thead>
+        <th:block th:each="Utensilios:${utensilios}">
+            <tr>
+                <td th:text="${Utensilios.getNOMBREUSUARIO}"></td>
+                <td th:text="${Utensilios.getIDUSUARIO}"></td>
+                <td th:text="${Utensilios.getCEDULAUSUARIO}"></td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/utensilios}" class="btn btn-primary">Volver Atras</a>
+</body>
+</html>

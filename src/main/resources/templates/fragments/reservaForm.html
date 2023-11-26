@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Fragmento</title>
+    
+</head>
+<body>
+    <div th:fragment="reservaForm(titulo)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form>
+            
+            <label class="col-form-label" for="fecha">Fecha Entrada</label>
+        <input class="form-control" type="date" id="fechaentrada" name="fechaentrada" required><br>
+        <label class="col-form-label" for="fecha">Fecha Salida</label>
+        <input class="form-control" type="date" id="fechasalida" name="fechasalida" required><br>
+
+            <label class="col-form-label">Número Personas</label>
+            <input class="form-control" type="number" id="numpersonas"
+            name="numpersonas" required th:value="${reserva.numpersonas}"/>
+            <!--estado es booleano-->
+            <label class="col-form-label">Estado</label>
+            <input class="form-control" type="text" id="estado"
+            name="estado" required th:value="${reserva.estado}"/>
+
+            <label class="col-form-label">Precio Reserva</label>
+            <input class="form-control" type="number" id="precioreserva"
+            name="precioreserva" required th:value="${reserva.precioreserva}"/>
+
+            <label class="col-form-label">Documento</label>
+            <input class="form-control" type="text" id="docUsuario"
+            name="docUsuario" required th:value="${reserva.docUsuario}"/>
+
+            <label class="col-form-label">Habitación</label>
+            <input class="form-control" type="text" id="habitacionId"
+            name="habitacionId" required th:value="${reserva.habitacionId}"/>
+
+  
+        <!--            <label class="col-form-label" for="habitacionId">Habitacion:</label>
+            <select class="form-control" id="habitacionId" name="habitacionId" required>
+                <th:block th:each="habitacionId : ${habitaciones}" >
+                    <option th:value="${habitacionId.id}" th:text="${habitacionId.id}" th:selected="${reserva != null && reserva.habitacionId != null && reserva.habitacionId.id == habitacionId.id}"></option>
+                </th:block>
+            </select><br>
+            -->
+
+            
+        
+
+
+
+    
+
+
+            
+            
+            <div class="text-center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/reservas}" class="btn btn-primary">Cancelar</a>
+            </div>
+            
+
+        </form>
+    </div>
+
+
+    
+</body>
+</html>

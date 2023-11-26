@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Servicios</title>
+</head>
+<body>
+    <div> Lista de Servicios</div>
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Id Consumo</th>
+            </tr>
+        </thead>
+        <th:block th:each="Utensilios:${utensilios}">
+            <tr>
+                <td th:text="${Utensilios.id}"></td>
+                <td th:text="${Utensilios.descripcion}"></td>
+                <td th:text="${Utensilios.precio}"></td>
+                <td th:text="${Utensilios.consumoid.id}"></td>
+                <td>
+                    <a th:href="@{/utensilios/{id}/edit(id=${Utensilios.id})}" >Editar</a>
+                    <a th:href="@{/utensilios/{id}/delete(id=${Utensilios.id})} "onclick = "return confirm ('Estas seguro de borrar este servicio?')" > Eliminar</a>
+
+                </td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{utensilios/new}" class="btn btn-primary">Añadir servicio</a>
+        <a th:href="@{utensilios/req2}" class="btn btn-primary">Ir a Req 2</a>
+        <a th:href="@{utensilios/req4}" class="btn btn-primary">Ir a Req 4</a>
+        <a th:href="@{utensilios/req41}" class="btn btn-primary">Ir a Req 4.1</a>
+        <a th:href="@{utensilios/req42}" class="btn btn-primary">Ir a Req 4.2</a>
+        <!-- <a th:href="@{utensilios/req43}" class="btn btn-primary">Ir a Req 4.3</a> -->
+        <a th:href="@{utensilios/req8}" class="btn btn-primary">Ir a Req 8</a>
+</body>
+</html>

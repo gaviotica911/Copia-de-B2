@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Reserva de Serivicios</title>
+</head>
+<body>
+    <div> Lista de reservas de servicios</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>id</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Precio</th>
+                <th>Descripcion</th>
+                <th>id Consumo</th>
+
+            </tr>
+        </thead>
+        <th:block th:each="reservasServicio:${reservasServicio}">
+            <tr>
+                <td th:text="${reservasServicio.id}"></td>
+                <td th:text="${reservasServicio.fechayhorai}"></td>
+                <td th:text="${reservasServicio.fechayhoraf}"></td>
+                <td th:text="${reservasServicio.precio}"></td>
+                <td th:text="${reservasServicio.descripcion}"></td>
+                <td th:text="${reservasServicio.consumoid.id}"></td>
+
+                <td>
+                    <a th:href="@{/reservasServicio/{id}/edit(id=${reservasServicio.id})}" >Editar</a>
+                    <a th:href="@{/reservasServicio/{id}/delete(id=${reservasServicio.id})} "onclick = "return confirm ('Estas seguro de borrar esta reserva de servicio?')" > Eliminar</a>
+
+                </td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{reservasServicio/new}" class="btn btn-primary">Añadir reserva de servicio</a>
+</body>
+</html>

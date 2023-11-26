@@ -1,0 +1,125 @@
+
+db.createCollection("reservas", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["id", "fechaEntrada","fechaSalida","numPersonas","estado", "precioReserva","docUsuario","habitacion"],
+          properties: {
+             id: {
+                bsonType: "int"
+            
+             },
+             fechaEntrada: {
+                bsonType: "date"
+             },
+             fechaSalida: {
+                bsonType: "date"
+             },
+             numPersonas: {
+                bsonType: "int"
+             },
+                estado: {
+                    bsonType: "bool"
+                },
+             precioReserva: {
+                bsonType: "double"
+             },
+                docUsuario: {
+                    bsonType: "string"
+                },
+                habitacion: {
+                    bsonType: "object"
+                },
+                consumos: {
+                  bsonType: "array",
+                  items: {
+                     bsonType: "objectId"
+                  }
+               }
+
+          }
+       }
+    }
+ });
+
+ db.createCollection("consumos", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["id", "fecha", "idReserva", "precio"],
+          properties: {
+             id: {
+                bsonType: "int"
+             },
+             fecha: {
+                bsonType: "date"
+             },
+             idReserva: {
+                bsonType: "objectId"
+             },
+             precio: {
+                bsonType: "double"
+             }
+          }
+       }
+    }
+ });
+ db.createCollection("platosYBebidas", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["id", "nombre"],
+          properties: {
+             id: {
+                bsonType: "int"
+             },
+             nombre: {
+                bsonType: "string"
+             },
+             consumos: {
+                bsonType: "array",
+                items: {
+                   bsonType: "objectId"
+                }
+             },
+             idRestaurante: {
+                bsonType: "objectId"
+             },
+             idBar: {
+                bsonType: "objectId"
+             }
+          }
+       }
+    }
+ });
+ db.createCollection("productos", {
+    validator: {
+       $jsonSchema: {
+          bsonType: "object",
+          required: ["id", "nombre"],
+          properties: {
+             id: {
+                bsonType: "int"
+             },
+             nombre: {
+                bsonType: "string"
+             },
+             consumos: {
+                bsonType: "array",
+                items: {
+                   bsonType: "objectId"
+                }
+             },
+             idSupermercado: {
+                bsonType: "objectId"
+             },
+             idTienda: {
+                bsonType: "objectId"
+             }
+          }
+       }
+    }
+ });
+ 
+ 
+

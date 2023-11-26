@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Fragmento</title>
+    
+</head>
+<body>
+    <div th:fragment="planConsumoForm(titulo)" class="container border border-2 w-25">
+        <h1 class="texta-center" th:text="${titulo}"></h1>
+        <form>
+            <label class="col-form-label">tipo</label>
+            <input class="form-control" type="text" id="tipo"
+            name="tipo" required th:value="${planesconsumo.tipo}"/> 
+
+            <label class="col-form-label">descuento Noche</label>
+            <input class="form-control" type="text" id="dtonoche"
+            name="dtonoche" required th:value="${planesconsumo.dtonoche}"/> 
+
+            <label class="col-form-label">descripcion</label>
+            <input class="form-control" type="text" id="descripcion"
+            name="descripcion" required th:value="${planesconsumo.descripcion}"/> 
+
+            <label class="col-form-label">descuento Bar</label>
+            <input class="form-control" type="text" id="descuentobar"
+            name="descuentobar" required th:value="${planesconsumo.descuentobar}"/> 
+
+            <label class="col-form-label">descuento Restaurante</label>
+            <input class="form-control" type="text" id="descuentorest"
+            name="descuentorest" required th:value="${planesconsumo.descuentorest}"/> 
+
+            <label class="col-form-label">descuento Spa</label>
+            <input class="form-control" type="text" id="descuentoSpa"
+            name="descuentoSpa" required th:value="${planesconsumo.descuentoSpa}"/> 
+
+            <label class="col-form-label">Limite Bebidas</label>
+            <input class="form-control" type="text" id="limitebebidas"
+            name="limitebebidas" required th:value="${planesconsumo.limitebebidas}"/> 
+
+            <label class="col-form-label">Descuento lavado</label>
+            <input class="form-control" type="text" id="descuentolavado"
+            name="descuentolavado" required th:value="${planesconsumo.descuentolavado}"/> 
+
+            <div class="text_center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/planesconsumo}" class="btn btn-primary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+
+    
+</body>
+</html>

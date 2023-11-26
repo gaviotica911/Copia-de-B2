@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragmento</title>
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="barForm(titulo)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form>
+            <label class="col-form-label">Nombre</label>
+            <input class="form-control" type="text" id="nombre" name="nombre" required th:value="${bar.nombre}"/><br>
+            <label class="col-form-label" for="hora">Horario Apertura</label>
+            <input class="form-control" type="time" id="horarioapertura" name="horarioapertura" required><br>
+            <label class="col-form-label" for="hora">Horario Cierre</label>
+            <input class="form-control" type="time" id="horariocierre" name="horariocierre" required><br>
+            <label class="col-form-label">Capacidad</label>
+            <input class="form-control" type="number" id="capacidad"
+            name="capacidad" required th:value="${bar.capacidad}"/><br>
+            <div class="text_center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/bares}" class="btn btn-primary">Cancelar</a>
+            </div>   
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragmento</title>
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="ReservaServicioForm(titulo)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form>
+
+            <label class="col-form-label" for="fechahora">Fecha Inicial</label>
+            <input class="form-control" type="datetime-local" id="fechayhorai" name="fechayhorai" required><br>
+
+            <label class="col-form-label" for="fechahora">Fecha Final</label>
+            <input class="form-control" type="datetime-local" id="fechayhoraf" name="fechayhoraf" required><br>
+
+            <label class="col-form-label">Precio</label>
+            <input class="form-control" type="text" id="precio"
+            name="precio" required th:value="${reservaServicio.precio}"/><br>
+
+            <label class="col-form-label">Descripcion</label>
+            <input class="form-control" type="text" id="descripcion"
+            name="descripcion" required th:value="${reservaServicio.descripcion}"/><br>
+
+            <label class="col-form-label">Consumo id</label>
+            <input class="form-control" type="text" id="consumoid"
+            name="consumoid" required th:value="${reservaServicio.consumoid}"/><br>
+
+            <div class="text_center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/reservasServicio}" class="btn btn-primary">Cancelar</a>
+            </div>   
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel de los Andes</title>
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container mx-auto text-center mt-5">
+        <h1>Administrador</h1>
+        <img th:src="@{/images/logo.png}" class="img-fluid" width="350">
+        <div class="btn-group mt-3" role="group" aria-label="Iniciar sesión">
+            <a th:href="@{/tiposUsuario}" class="btn btn-primary">Ver Tipo de usuarios</a>
+            <a th:href="@{/usuarios}" class="btn btn-primary">Ver Usuarios</a>
+            <a th:href="@{/tiposHab}" class="btn btn-primary">Ver Tipo de Habitación</a>
+            <a th:href="@{/habitaciones}" class="btn btn-primary">Ver Habitaciones</a>
+            <a th:href="@{/utensilios}" class="btn btn-primary">Ver Servicios</a>
+            <a th:href="@{/planesconsumo}" class="btn btn-primary">Ver Planes de consumo</a>
+            
+            <!--
+            
+            <a th:href="@{/bares}" class="btn btn-primary">Ver Bares</a>
+            <a th:href="@{/platosbebidas}" class="btn btn-primary">Ver Bebidas y Platos</a>
+            <a th:href="@{/restaurantes}" class="btn btn-primary">Ver Restaurantes</a>
+            <a th:href="@{/reservasServicio}" class="btn btn-primary">Ver Reservas de servicios</a>
+            <a th:href="@{/productos}" class="btn btn-primary">Ver Productos</a>
+            <a th:href="@{/tiendas}" class="btn btn-primary">Ver Tiendas</a>
+            <a th:href="@{/mercados}" class="btn btn-primary">Ver Super Mercados</a>
+            -->
+            
+        </div>
+    </div>
+</body>
+</html>

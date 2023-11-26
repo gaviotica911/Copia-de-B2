@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/css/jquery.min.js}"></script>
+    <script th:src="@{/css/bootstrap.min.js}"></script>
+    <title> Habitaciones</title>
+</head>
+<body>
+    <div>  RFC6 - MOSTRAR LOS DIAS CON MAYORES CONSUMOS O HABITACIONES RESERVADAS</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>fecha</th>
+                <th>Total ingresos del dia</th>
+                <th>cantidad de habitaciones reservadas</th>
+              
+            </tr>
+        </thead>
+        <th:block th:each="consumos:${consumos}">
+            <tr>
+                <td th:text="${consumos.getFECHA}"></td>
+                <td th:text="${consumos.getTotal_del_dia}"></td>
+                <td th:text="${consumos.getOCUPACION}"></td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/consumos}" class="btn btn-primary">Volver Atras</a>
+        
+</body>
+</html>

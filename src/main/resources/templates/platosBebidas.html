@@ -1,0 +1,42 @@
+<!DOCTYPE   html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>PlatosBebidas</title>
+</head>
+<body>
+    <div>Lista de PlatosBebidas</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>nombre</th>
+                <th>precio</th>
+                <th>consumo id</th>
+            </tr>
+        </thead>
+        <th:block th:each="platobebida:${platbosbebidas}">
+            <tr>
+                <td th:text="${platobebida.id}"></td>
+                <td th:text="${platobebida.nombre}"></td>
+                <td th:text="${platobebida.precio}"></td>
+                <td th:text="${platobebida.consumoid}"></td>
+                <td>
+                    <a th:href="@{/platosbebidas/{id}/edit(id=${platobebida.id})}" >Editar</a>
+                    <a th:href="@{/platosbebidas/{id}/delete(id=${platobebida.id})}" onclick="return confirm ('Estas seguro de borrar este plato/bebida?')" > Eliminar</a>
+
+            </tr>
+            
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{platosbebidas/new}" class="btn btn-primary">Añadir Bar</a>
+</body>
+</html>

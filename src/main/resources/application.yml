@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://gabriela:gabriela@cluster0.jxnirke.mongodb.net/
+      database: Hotel_Andes
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html

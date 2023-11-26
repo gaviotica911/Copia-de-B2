@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Tipos de Habitacion</title>
+</head>
+<body>
+    <div> lista de Tipos de Habitacion</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th> ID</th>
+                <th>Tipo</th>
+                <th>Descripcion</th>
+            </tr>
+        </thead>
+        <th:block th:each="tiposHab:${tiposHab}">
+            <tr>
+                <td th:text="${tiposHab.id}"></td>
+                <td th:text="${tiposHab.tipo}"></td>
+                <td th:text="${tiposHab.descripcion}"></td>
+                <td>
+                    <a th:href="@{/tiposHab/{id}/edit(id=${tiposHab.id})}" >Editar</a>
+                    <a th:href="@{/tiposHab/{id}/delete(id=${tiposHab.id})}" onclick = "return confirm ('Estas seguro de borrar este Tipo?')" > Eliminar</a>
+
+
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{tiposHab/new}" class="btn btn-primary">Añadir tipo de habitacion</a>
+</body>
+</html>

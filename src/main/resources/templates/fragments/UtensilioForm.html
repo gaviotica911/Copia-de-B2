@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragmento</title>
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="UtensilioForm(titulo)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form>
+            <label class="col-form-label">Tipo de Servicio</label>
+            <select class="form-control" id="descripcion"
+            name="descripcion" required>
+                <option value="PISCINA" th:selected="${utensilio.descripcion eq 'piscina'}">Psicina</option>
+                <option value="GIMNACIO" th:selected="${utensilio.descripcion eq 'gimnacio'}">Gimnacio</option>
+                <option value="INTERNET" th:selected="${utensilio.descripcion eq 'internet'}">Internet</option>
+                <option value="SPA" th:selected="${utensilio.descripcion eq 'spa'}">Spa</option>
+                <option value="LAVANDERIA" th:selected="${utensilio.descripcion eq 'lavanderia'}">Lavanderia</option>
+                <option value="PRESTAMO UTENSILIO" th:selected="${utensilio.descripcion eq 'prestamo utensilio'}">Prestamo Utensilio</option>
+                <option value="SALON DE REUNION" th:selected="${utensilio.descripcion eq 'salon de reunion'}">Salon de reunion</option>
+                <option value="SALON DE EVENTOS" th:selected="${utensilio.descripcion eq 'salon de eventos'}">Salon de eventos</option>
+            </select>
+            <label class="col-form-label">Precio</label>
+            <input class="form-control" type="text" id="precio"
+            name="precio" required th:value="${utensilio.precio}"/>
+
+            <label class="col-form-label">Id Consumo</label>
+            <input class="form-control" type="text" id="consumoid"
+            name="consumoid" required th:value="${utensilio.consumoid}"/>
+
+
+            <div class="text_center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/utensilios}" class="btn btn-primary">Cancelar</a>
+            </div>   
+        </form>
+    </div>
+
+</body>
+</html>

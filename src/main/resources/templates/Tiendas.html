@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Tiendas</title>
+</head>
+<body>
+    <div> Lista de Tiendas</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Horario Apertura</th>
+                <th>Horario Cierre</th>
+                <th>Capacidad</th>
+
+            </tr>
+        </thead>
+        <th:block th:each="Tiendas:${tiendas}">
+            <tr>
+                <td th:text="${Tiendas.id}"></td>
+                <td th:text="${Tiendas.nombre}"></td>
+                <td th:text="${Tiendas.horarioapertura}"></td>
+                <td th:text="${Tiendas.horariocierre}"></td>
+                <td th:text="${Tiendas.capacidad}"></td>
+
+                <td>
+                    <a th:href="@{/tiendas/{id}/edit(id=${Tiendas.id})}" >Editar</a>
+                    <a th:href="@{/tiendas/{id}/delete(id=${Tiendas.id})} "onclick = "return confirm ('Estas seguro de borrar esta tienda?')" > Eliminar</a>
+
+                </td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{tiendas/new}" class="btn btn-primary">Añadir tienda</a>
+</body>
+</html>

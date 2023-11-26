@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title> Habitaciones</title>
+</head>
+<body>
+    <div> lista de Habitaciones</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>id</th>
+                <th>capacidad</th>
+                <th>tipoId</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <th:block th:each="habitaciones:${habitaciones}">
+            <tr>
+                <td th:text="${habitaciones.id}"></td>
+                <td th:text="${habitaciones.capacidad}"></td>
+                <td th:text="${habitaciones.tipoId.tipo}"></td>
+     
+                <td>
+                    <a th:href="@{/habitaciones/{id}/edit(id=${habitaciones.id})}" >Editar</a>
+                    <a th:href="@{/habitaciones/{id}/delete(id=${habitaciones.id})} "onclick = "return confirm ('Estas seguro de borrar esta habitacion?')" > Eliminar</a>
+
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{habitaciones/new}" class="btn btn-primary">Añadir habitacion</a>
+        <a th:href="@{habitaciones/req1}" class="btn btn-primary">Ver req1</a>
+        <a th:href="@{habitaciones/req3}" class="btn btn-primary">Ver req3</a>
+</body>
+</html>

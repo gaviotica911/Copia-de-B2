@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Editar consumo</title>
+</head>
+
+<body>
+    <br>
+    <form th:action="@{'/consumos/'+${id}+'/edit/save'}" th:object ="${consumos}" method="post">
+        <div th:replace="~{fragments/consumosForm :: consumosForm(titulo='editar consumo',consumos=${consumos})}">
+    </form>
+    
+</body>
+</html>
+
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Servicios</title>
+</head>
+<body>
+    <div>ENCONTRAR LOS SERVICIOS QUE NO TIENEN MUCHA DEMANDA</div>
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Cantidad Consumo</th>
+
+            </tr>
+        </thead>
+        <th:block th:each="Utensilios:${utensilios}">
+            <tr>
+                <td th:text="${Utensilios.getSERVICIOID}"></td>
+                <td th:text="${Utensilios.getSERVICIODESCRIPCION}"></td>
+                <td th:text="${Utensilios.getCANTIDADCONSUMO}"></td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/utensilios}" class="btn btn-primary">Volver Atras</a>
+</body>
+</html>

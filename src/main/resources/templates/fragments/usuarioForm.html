@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Fragmento</title>
+    
+</head>
+<body>
+    <div th:fragment="usuarioForm(titulo)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form>
+            <label class="col-form-label">Nombre</label>
+            <input class="form-control" type="text" id="nombre"
+            name="nombre" required th:value="${usuario.nombre}"/> 
+            <label class="col-form-label">Cedula</label>
+            <input class="form-control" type="text" id="cedula"
+            name="cedula" required th:value="${usuario.cedula}"/>
+
+            
+            <label class="col-form-label" for="tipoId">Tipo:</label>
+            <select class="form-control" id="tipoId" name="tipoId" required>
+                <th:block th:each="tipoId : ${tipos}" >
+                    <option th:value="${tipoId.id}" th:text="${tipoId.tipo}" th:selected="${usuario != null && usuario.tipoId != null && usuario.tipoId.id == tipoId.id}"></option>
+                </th:block>
+            </select><br>
+
+            
+
+
+                    
+            <div class="text_center">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/usuarios}" class="btn btn-primary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+
+    
+</body>
+</html>

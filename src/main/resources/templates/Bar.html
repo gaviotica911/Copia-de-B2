@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Bares</title>
+</head>
+<body>
+    <div>Lista de Bares</div>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Horario Apertura</th>
+                <th>Horario Cierre</th>
+                <th>Capacidad</th>
+
+            </tr>
+        </thead>
+        <th:block th:each="bar:${bares}">
+            <tr>
+                <td th:text="${bar.id}"></td>
+                <td th:text="${bar.nombre}"></td>
+                <td th:text="${bar.horarioapertura}"></td>
+                <td th:text="${bar.horariocierre}"></td>
+                <td th:text="${bar.capacidad}"></td>
+                <td>
+                    <a th:href="@{/bares/{id}/edit(id=${bar.id})}" >Editar</a>
+                    <a th:href="@{/bares/{id}/delete(id=${bar.id})} "onclick = "return confirm ('Estas seguro de borrar este bar?')" >Eliminar</a>
+
+                </td>
+            </tr>
+
+
+        </th:block>
+
+
+    </table>
+    <div>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atras</a>
+        <a th:href="@{bares/new}" class="btn btn-primary">Añadir Bar</a>
+</body>
+</html>

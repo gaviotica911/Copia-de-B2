@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Editar plan</title>
+</head>
+
+<body>
+    <br>
+    <form th:action="@{'/planesconsumo/'+${id}+'/edit/save'}" th:object ="${planesconsumo}" method="post">
+        <div th:replace="~{fragments/planConsumoForm :: planConsumoForm(titulo='editar tipo',planesconsumo=${planesconsumo})}">
+    </form>
+    
+</body>
+</html>
+
+

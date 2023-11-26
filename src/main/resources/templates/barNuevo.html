@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Bar</title>
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <form action="#" th:action="@{/bares/new/save}" method="post">
+        <div th:replace="~{fragments/barForm :: barForm(titulo='Crear Bar')}"></div>
+    </form>
+</body>
+</html>

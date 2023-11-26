@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container mx-auto text-center mt-5">
+        <h1>Iniciar sesión</h1>
+        <img th:src="@{/images/logo.png}" class="img-fluid" width="500">
+        <div class="btn-group mt-3" role="group" aria-label="Iniciar sesión">
+            <a th:href="@{/IndexCliente}" class="btn btn-primary">Iniciar Cliente</a>
+            <a th:href="@{/indexAdminSistema}" class="btn btn-primary">Iniciar Admin</a>
+            <a th:href="@{/IndexEmpleado}" class="btn btn-primary">Iniciar Empleado</a>
+            <a th:href="@{/indexRecepcionista}" class="btn btn-primary">Iniciar Recepcionista</a>
+            <a th:href="@{/indexGerente}" class="btn btn-primary">Iniciar Gerente</a>
+        </div>
+    </div>
+</body>
+</html>

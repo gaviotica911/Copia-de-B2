@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/css/jquery.min.js}"></script>
+    <script th:src="@{/css/bootstrap.min.js}"></script>
+    <title>Usuarios</title>
+</head>
+<body>
+    <div> RFC10 -CONSULTAR CONSUMO EN HOTELANDES parte 2. </div>
+
+    <div class="container w-25">
+      <div class="card border border-2 mx-auto">
+          <h5 class="card-header" role='button' id="headingOne">
+              <a href="#" class="collapsed d-block" data-toggle="collapse" data-target="#busqueda">
+                  Búsqueda avanzada
+              </a>
+          </h5>
+          <div id="busqueda" class="collapse">
+              <form th:action="@{/usuarios/req10}" method="get">
+                  <label class="col-form-label" for="opcion">Tipo:</label>
+                  <select class="form-control" id="opcion" name="opcion">
+                      <option value="ordenarPorNombre">Ordenar por nombre de usuario</option>
+                      <option value="ordenarPorId">Ordenar por id de usuario</option>
+                      <option value="agruparPorFecha">Agrupar por fecha y veces usado</option>
+                  </select><br>
+  
+                  <label class="col-form-label" for="servicio">Servicio:</label>
+                  <input class="form-control" type="text" id="servicio" name="servicio" />
+  
+                  <label class="col-form-label" for="fecha1">Fecha 1:</label>
+                  <input class="form-control" type="date" id="fecha1" name="fecha1" required><br>
+  
+                  <label class="col-form-label" for="fecha2">Fecha 2:</label>
+                  <input class="form-control" type="date" id="fecha2" name="fecha2" required><br>
+  
+                  <div class="text-center">
+                      <button type="submit" class="btn btn-secondary">Buscar</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <br />
+  
+  
+  
+
+
+    <!-- ... Tu código HTML previo ... -->
+
+<!-- Aquí agregas la lógica para mostrar la tabla dependiendo de la opción seleccionada -->
+<div th:if="${#strings.equals(param.opcion, 'agruparPorFecha')}">
+  <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+          <tr>
+              <th>Fecha</th>
+              <th>Servicio</th>
+              <th>Número de veces utilizado</th>
+          </tr>
+      </thead>
+
+      <th:block th:each="user : ${usuarios}">
+          <tr>
+              <td th:text="${user.getFECHA}"></td>
+              <td th:text="${user.getSERVICIO}"></td>
+              <td th:text="${user.getNUMERO_VECES_UTILIZADO}"></td>
+          </tr>
+      </th:block>
+  </table>
+</div>
+<div th:unless="${#strings.equals(param.opcion, 'agruparPorFecha')}">
+  <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+          <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Tipo</th>
+          </tr>
+      </thead>
+
+      <th:block th:each="user : ${usuarios}">
+          <tr>
+              <td th:text="${user.getID}"></td>
+              <td th:text="${user.getNOMBRE}"></td>
+              <td th:text="${user.getTIPO}"></td>
+          </tr>
+      </th:block>
+  </table>
+</div>
+
+<!-- ... Tu código HTML posterior ... -->
+
+            
+    <div>
+        <a th:href="@{/usuarios}" class="btn btn-primary">Volver Atras</a>
+      
+</body>
+</html>

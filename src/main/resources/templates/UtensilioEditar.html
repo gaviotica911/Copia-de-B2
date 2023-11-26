@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar utensilio</title>
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <form th:action="@{'/utensilios/'+${id}+'/edit/save'}" th:object ="${utensilio}" method="post">
+        <div th:replace="~{fragments/UtensilioForm :: UtensilioForm(titulo='Editar Utensilio',utensilio=${utensilio})}"></div>
+</body>
+</html>

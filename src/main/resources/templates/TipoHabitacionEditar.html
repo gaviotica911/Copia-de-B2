@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <title>Editar tipo Habitación</title>
+</head>
+
+<body>
+    <br>
+    <form th:action="@{'/tiposHab/'+${id}+'/edit/save'}" th:object ="${tiposhab}" method="post">
+        <div th:replace="~{fragments/TipoHabitacionForm :: TipoHabitacionForm(titulo='editar tipo Habitación',usuario=${tiposhab})}">
+    </form>
+    
+</body>
+</html>
+
