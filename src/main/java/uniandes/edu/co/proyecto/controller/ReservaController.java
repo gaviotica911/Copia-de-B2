@@ -3,8 +3,7 @@ package uniandes.edu.co.proyecto.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,43 +52,38 @@ public class ReservaController {
     }
 
     @GetMapping("/reservas/{id}/edit")
-    public String reservaEditarForm(@PathVariable("id") String id, @ModelAttribute Reserva reserva){
-        Optional<Reserva> reservaExistente= reservaRepository.findById(id);
-       if (reservaExistente.isPresent()) {
-            //bebida.setId(id); // Asegura que el ID sea el mismo que el proporcionado en la URL
-            reservaRepository.save(reserva);
-             
+    public String editarForm(@PathVariable String id, Model model){
+      Optional<Reserva> reservaOpt = reservaRepository.findById(id);
+
+        if (reservaOpt.isPresent()) {
+            Reserva reserva = reservaOpt.get();
+            model.addAttribute("reserva", reserva);
+  
         } 
+        return "ReservaEditar";
+    }
+
+    @PostMapping("/reservas/{id}/edit/save")
+    public String editar(@PathVariable("id") String id, @ModelAttribute Reserva reserva){
+        reservaRepository.save(reserva);
         return "redirect:/reservas";
     }
+
+
     
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarReserva(@PathVariable String id) {
+    @GetMapping("/reservas/{id}/delete")
+    public String eliminarReserva(@PathVariable String id) {
+    
         Optional<Reserva> reservaExistente = reservaRepository.findById(id);
+       
         if (reservaExistente.isPresent()) {
             reservaRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-/*
-    @GetMapping("/reservas/{id}/checkIn")
-    public String checkIn(@PathVariable String id){
-        reservaRepository.setEstado(id,true);
         return "redirect:/reservas";
     }
 
 
-    @GetMapping("/reservas/{id}/checkOut")
-    public String checkOut(@PathVariable String id){
-        reservaRepository.setEstado(id,false);
-        return "redirect:/reservas";
-    }
-
- */
 
    
 
