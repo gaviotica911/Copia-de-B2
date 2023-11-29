@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 public class Utensilio {
     @Id
-    private Integer id;
+    private String id;
     @Field("descripcion")
     private String descripcion;
     @Field("tipo")
@@ -16,7 +16,7 @@ public class Utensilio {
     @Field("duracion")
     private Integer duracion;
 
-    public Utensilio(Integer id, String descripcion, String tipo, Integer duracion) {
+    public Utensilio(String id, String descripcion, String tipo, Integer duracion) {
         this.id = id;
         this.descripcion = descripcion;
         this.tipo = tipo;
@@ -25,11 +25,11 @@ public class Utensilio {
 
     public Utensilio() {}
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

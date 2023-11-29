@@ -6,13 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "tiposhab")
 public class TipoHabitacion {
     @Id
-    private Integer id;
+    private String id;
     @Field("tipo")
     private String tipo;
     @Field("descripcion")
     private String descripcion;
 
-    public TipoHabitacion(Integer id, String tipo, String descripcion) {
+    public TipoHabitacion(String id, String tipo, String descripcion) {
         this.id = id;
         this.tipo = tipo;
         this.descripcion = descripcion;
@@ -20,11 +20,11 @@ public class TipoHabitacion {
 
     public TipoHabitacion() {}
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

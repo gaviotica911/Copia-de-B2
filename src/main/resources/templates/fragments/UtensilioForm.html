@@ -11,24 +11,24 @@
         <h1 class="text-center" th:text="${titulo}"></h1>
         <form>
             <label class="col-form-label">Tipo de Servicio</label>
-            <select class="form-control" id="descripcion"
-            name="descripcion" required>
-                <option value="PISCINA" th:selected="${utensilio.descripcion eq 'piscina'}">Psicina</option>
-                <option value="GIMNACIO" th:selected="${utensilio.descripcion eq 'gimnacio'}">Gimnacio</option>
-                <option value="INTERNET" th:selected="${utensilio.descripcion eq 'internet'}">Internet</option>
-                <option value="SPA" th:selected="${utensilio.descripcion eq 'spa'}">Spa</option>
-                <option value="LAVANDERIA" th:selected="${utensilio.descripcion eq 'lavanderia'}">Lavanderia</option>
-                <option value="PRESTAMO UTENSILIO" th:selected="${utensilio.descripcion eq 'prestamo utensilio'}">Prestamo Utensilio</option>
-                <option value="SALON DE REUNION" th:selected="${utensilio.descripcion eq 'salon de reunion'}">Salon de reunion</option>
-                <option value="SALON DE EVENTOS" th:selected="${utensilio.descripcion eq 'salon de eventos'}">Salon de eventos</option>
+            <select class="form-control" id="tipo"
+            name="tipo" required>
+                <option value="PISCINA" th:selected="${utensilio.tipo eq 'piscina'}">Psicina</option>
+                <option value="GIMNACIO" th:selected="${utensilio.tipo eq 'gimnacio'}">Gimnacio</option>
+                <option value="INTERNET" th:selected="${utensilio.tipo eq 'internet'}">Internet</option>
+                <option value="SPA" th:selected="${utensilio.tipo eq 'spa'}">Spa</option>
+                <option value="LAVANDERIA" th:selected="${utensilio.tipo eq 'lavanderia'}">Lavanderia</option>
+                <option value="PRESTAMO UTENSILIO" th:selected="${utensilio.tipo eq 'prestamo utensilio'}">Prestamo Utensilio</option>
+                <option value="SALON DE REUNION" th:selected="${utensilio.tipo eq 'salon de reunion'}">Salon de reunion</option>
+                <option value="SALON DE EVENTOS" th:selected="${utensilio.tipo eq 'salon de eventos'}">Salon de eventos</option>
             </select>
-            <label class="col-form-label">Precio</label>
-            <input class="form-control" type="text" id="precio"
-            name="precio" required th:value="${utensilio.precio}"/>
+            <label class="col-form-label">Descripcion</label>
+            <input class="form-control" type="text" id="descripcion"
+            name="descripcion" required th:value="${utensilio.descripcion}"/>
 
-            <label class="col-form-label">Id Consumo</label>
-            <input class="form-control" type="text" id="consumoid"
-            name="consumoid" required th:value="${utensilio.consumoid}"/>
+            <label class="col-form-label">Duracion</label>
+            <input class="form-control" type="number" id="duracion"
+            name="duracion" th:value="${utensilio.duracion}"/>
 
 
             <div class="text_center">

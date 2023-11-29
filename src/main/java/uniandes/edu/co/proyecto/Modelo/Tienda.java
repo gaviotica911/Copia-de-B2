@@ -9,7 +9,7 @@ import java.util.List;
 @Document(collection = "Tiendas")
 public class Tienda {
     @Id
-    private Integer id;
+    private String id;
     @Field("nombre")
     private String nombre;
     @Field("horarioapertura")
@@ -21,7 +21,7 @@ public class Tienda {
     @Field("productos")
     private List<Productos> productos;
 
-    public Tienda(Integer id, String nombre, LocalTime horarioapertura, LocalTime horariocierre, Integer capacidad,
+    public Tienda(String id, String nombre, LocalTime horarioapertura, LocalTime horariocierre, Integer capacidad,
             List<Productos> productos) {
         this.id = id;
         this.nombre = nombre;
@@ -33,11 +33,11 @@ public class Tienda {
 
     public Tienda() {}
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
