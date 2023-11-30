@@ -77,23 +77,35 @@ class Reservas:
     
     def sql_add(self):
         #return '{'+ f"'fechaentrada':  new Date('{self.fechaentrada}'), 'fechasalida': , 'numpersonas': , 'estado': , 'precioreserva': , 'docUsuario' :  ,'habitacionId':", "} "
-        return f"'fechaentrada': new Date('{self.fechaentrada}'), 'fechasalida': new Date('{self.fechasalida}'), 'numpersonas': {self.numpersonas} , 'estado':{self.estado} , 'precioreserva': {self.precio}, 'docUsuario' : '{self.doc}' " #,'habitacionId': "
+        return f"'fechaentrada': new Date('{self.fechaentrada}'), 'fechasalida': new Date('{self.fechasalida}'), 'numpersonas': {self.numpersonas} , 'estado':{self.estado} , 'precioreserva': {self.precio}, 'docUsuario' : '{self.doc}' , 'consumos':[] " #,'habitacionId': ObjectId('{habitacionid}')"
     
     
 
 class Consumos:
     def __init__(self, id):
   
-        self.id=id
+        self.id = id
         fecha=fecha_inicial + (fecha_final - fecha_inicial) * random.random() 
-        self.fecha=fecha.replace(microsecond=0)
+        
+        self.fecha=fecha.strftime('%Y-%m-%dT%H:%M:%SZ')
+        #self.idReserva=reservas[fake.random_int(min=0, max=len(reservas), step=1)]
+        precio_entero = random.randint(1000, 1000000)
+        self.idReserva=1
+        decimales = random.randint(1, 99)
+        self.precio=float(f"{precio_entero}.{decimales:02d}")
         
     def getFechaConsumoPorID(self):
         return self.fecha
         
     def sql_add(self):
-        return f"INSERT INTO consumos (id, fecha ) VALUES ({self.id}, TO_DATE('{self.fecha}', 'YYYY-MM-DD HH24:MI:SS'));"
+        a= f"'id': '{self.id}', 'fecha':new Date('{self.fecha}'), 'precio': {self.precio}  ,'idReserva': ObjectId('{self.idReserva}')"
+        return ("db.consumos.insertOne({"+ a+     "})")
+    def add_consumo(self):
         
+        a=f"_id: ObjectId('{self.idReserva}') "
+        b=f"consumos: '{self.id}' "
+        
+        return ("db.reservas.update({" + a + "},{$push: { " + b + "} })")
 
 class Producto:
     def __init__(self, id):
@@ -174,10 +186,14 @@ def populate(n):
         
     print("])")
        
-    for i in range(1, n + 1):
-        x = Consumos(i)
-        consumos.append(x)
-        print(x.sql_add())
+    for i in range(n):
+      
+            x = Consumos(i)
+            print( x.sql_add())
+    
+            print(x.add_consumo())
+        
+
     
     for i in range(1, n + 1):
         x = Producto(i)
