@@ -21,10 +21,10 @@ public class Bar {
     @Field("capacidad")
     private Integer capacidad;
     @Field("platosybebidas")
-    private List<PlatosYBebidas> platosybebidas;
+    private List<PlatosYBebidasEmbedded> platosybebidas;
 
     public Bar(String id, String nombre, LocalTime horarioapertura, LocalTime horariocierre, Integer capacidad,
-            List<PlatosYBebidas> platosybebidas) {
+            List<PlatosYBebidasEmbedded> platosybebidas) {
         this.id = id;
         this.nombre = nombre;
         this.horarioapertura = horarioapertura;
@@ -75,12 +75,16 @@ public class Bar {
         this.capacidad = capacidad;
     }
 
-    public List<PlatosYBebidas> getPlatosybebidas() {
+    public List<PlatosYBebidasEmbedded> getPlatosybebidas() {
         return platosybebidas;
     }
 
-    public void setPlatosybebidas(List<PlatosYBebidas> platosybebidas) {
+    public void setPlatosybebidas(List<PlatosYBebidasEmbedded> platosybebidas) {
         this.platosybebidas = platosybebidas;
+    }
+
+    public void addPlatoYBebida(PlatosYBebidasEmbedded platoYBebida){
+        this.platosybebidas.add(platoYBebida);
     }
 
 
