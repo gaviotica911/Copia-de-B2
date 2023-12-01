@@ -19,10 +19,10 @@ public class Tienda {
     @Field("capacidad")
     private Integer capacidad;
     @Field("productos")
-    private List<Productos> productos;
+    private List<ProductosEmbedded> productos;
 
     public Tienda(String id, String nombre, LocalTime horarioapertura, LocalTime horariocierre, Integer capacidad,
-            List<Productos> productos) {
+            List<ProductosEmbedded> productos) {
         this.id = id;
         this.nombre = nombre;
         this.horarioapertura = horarioapertura;
@@ -73,14 +73,16 @@ public class Tienda {
         this.capacidad = capacidad;
     }
 
-    public List<Productos> getProductos() {
+    public List<ProductosEmbedded> getProductos() {
         return productos;
     }
 
-    public void setProductos(List<Productos> productos) {
+    public void setProductos(List<ProductosEmbedded> productos) {
         this.productos = productos;
     }
 
-    
+    public void addProducto(ProductosEmbedded producto){
+        this.productos.add(producto);
+    }   
 
 }

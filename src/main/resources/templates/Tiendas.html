@@ -16,6 +16,7 @@
                 <th>Horario Apertura</th>
                 <th>Horario Cierre</th>
                 <th>Capacidad</th>
+                <th>Productos [nombre, descripcion]</th>
 
             </tr>
         </thead>
@@ -26,6 +27,16 @@
                 <td th:text="${Tiendas.horarioapertura}"></td>
                 <td th:text="${Tiendas.horariocierre}"></td>
                 <td th:text="${Tiendas.capacidad}"></td>
+                <td>
+                    <!-- Iteramos sobre la lista de bebidas y mostramos los detalles -->
+                    <ul th:if="${Tiendas.Productos != null}">
+                        <li th:each="productos : ${Tiendas.productos}">
+                            <span th:text="${productos.nombre + ', ' + productos.descripcion}"></span>
+                        </li>
+                    </ul>
+                    <!-- Botón para redirigir al formulario de adición de la bebida -->
+                    <a th:href="@{'/addProducto?nombre=' + ${Tienda.nombre}}" class="btn btn-primary">Añadir Producto</a>
+                <td>
 
                 <td>
                     <a th:href="@{/tiendas/{id}/edit(id=${Tiendas.id})}" >Editar</a>
