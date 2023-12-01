@@ -99,13 +99,13 @@ class Consumos:
         
     def sql_add(self):
         a= f"'id': '{self.id}', 'fecha':new Date('{self.fecha}'), 'precio': {self.precio}  ,'idReserva': ObjectId('{self.idReserva}')"
-        return ("db.consumos.insertOne({"+ a+     "})")
+        return ("db.consumos.insertOne({"+ a+     "});")
     def add_consumo(self):
         
         a=f"_id: ObjectId('{self.idReserva}') "
         b=f"consumos: '{self.id}' "
         
-        return ("db.reservas.update({" + a + "},{$push: { " + b + "} })")
+        return ("db.reservas.update({" + a + "},{$push: { " + b + "} });")
 
 class Producto:
     def __init__(self, id):
@@ -184,7 +184,7 @@ def populate(n):
             reservas.append(x)
             print("{", x.sql_add(), "}")
         
-    print("])")
+    print("]);")
        
     for i in range(n):
       
