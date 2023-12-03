@@ -2,19 +2,12 @@ package uniandes.edu.co.proyecto.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Arrays;
-import org.bson.Document;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.conversions.Bson;
-import java.util.concurrent.TimeUnit;
-import org.bson.Document;
-import com.mongodb.client.AggregateIterable;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
-import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
+
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -100,28 +93,7 @@ private MongoTemplate mongoTemplate;
     }
 
 
-    @GetMapping("/usuarios/RFC3")
-    public String RFC3(Model model, String id, String fecha1, String fecha2) {
-        LookupOperation lookupOperation = LookupOperation.newLookup()
-            .from("reservas")
-            .localField("idReserva")
-            .foreignField("_id")
-            .as("reservas");
-
-        Criteria idCriteria = Criteria.where("reservas.docUsuario").is(id);
-        Criteria fechaCriteria = Criteria.where("fecha").gte(fecha1).lte(fecha2);
-        Aggregation aggregation = Aggregation.newAggregation(
-            lookupOperation,
-            Aggregation.match(idCriteria.andOperator(fechaCriteria))
-        );
-        
-        
-
-       List<Reserva> reservas = mongoTemplate.aggregate(aggregation, "nombreDeTuColeccion", Reserva.class).getMappedResults();
-        model.addAttribute("consumosXFecha", reservas);
-        
-        return "usuarioreq5";
-    }
+   
 
     @GetMapping("/reservas/req2")
     public String mostrarResultados(Model model) {

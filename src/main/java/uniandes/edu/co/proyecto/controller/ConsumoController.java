@@ -3,14 +3,7 @@ package uniandes.edu.co.proyecto.controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
-import java.util.Arrays;
-import org.bson.Document;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.conversions.Bson;
-import java.util.concurrent.TimeUnit;
-import org.bson.Document;
-import com.mongodb.client.AggregateIterable;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -30,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uniandes.edu.co.proyecto.Modelo.Consumo;
 import uniandes.edu.co.proyecto.Modelo.PlatosYBebidasEmbedded;
 import uniandes.edu.co.proyecto.Modelo.ProductosEmbedded;
-import uniandes.edu.co.proyecto.Modelo.Restaurante;
+import uniandes.edu.co.proyecto.Modelo.Reserva;
+
 import uniandes.edu.co.proyecto.Modelo.ServicioEmbedded;
-import uniandes.edu.co.proyecto.Modelo.Tienda;
+
 import uniandes.edu.co.proyecto.repositorio.ConsumoRepository;
 
 
@@ -103,14 +97,14 @@ public class ConsumoController {
 
     //Controladores para el manejo de Procuctos, servicios y platosybebidas embebidos
 
-    @GetMapping("/addProducto")
+    @GetMapping("/addProductoC")
     public String anadirProducto(@RequestParam(name = "nombre", required= false) String nombre, Model model){
         model.addAttribute("nombreTienda", nombre);   
         model.addAttribute("producto", new ProductosEmbedded());
         return "addProductoForm";
     }
 
-    @PostMapping("/addProductoSave")
+    @PostMapping("/addProductoSaveC")
     public String anadirProductoSave(@RequestParam("id") String id,
     @ModelAttribute("producto") ProductosEmbedded product){
 
@@ -141,7 +135,7 @@ public class ConsumoController {
 
     }
     
-    @GetMapping("/addPlatoYBebida")
+    @GetMapping("/addPlatoYBebidaC")
     public String anadirBebida(@RequestParam(name = "nombre", required = false) String nombre, Model model){
         model.addAttribute("nombreTipoPlatoYBebida", nombre);
         model.addAttribute("platoybebida", new PlatosYBebidasEmbedded());
@@ -150,7 +144,7 @@ public class ConsumoController {
         return "addPlatoYBebidaForm";
     }
 
-    @PostMapping("/addPlatoYBebidaSave")
+    @PostMapping("/addPlatoYBebidaSaveC")
     public String anadirBebidaSave(@RequestParam("nombreTipoPlatoYBebida") String nombreTipoPlatoYBebida,
     @ModelAttribute("platoybebida") PlatosYBebidasEmbedded platoybebida){
 
@@ -219,6 +213,29 @@ public class ConsumoController {
 
         return "redirect:/consumos";
 
+    }
+
+     @GetMapping("/usuarios/RFC3")
+    public String RFC3(Model model, String id, String fecha1, String fecha2) {
+        LookupOperation lookupOperation = LookupOperation.newLookup()
+            .from("reservas")
+            .localField("idReserva")
+            .foreignField("_id")
+            .as("reservas");
+
+        Criteria idCriteria = Criteria.where("reservas.docUsuario").is(id);
+        Criteria fechaCriteria = Criteria.where("fecha").gte(fecha1).lte(fecha2);
+        Aggregation aggregation = Aggregation.newAggregation(
+            lookupOperation,
+            Aggregation.match(idCriteria.andOperator(fechaCriteria))
+        );
+        
+        
+
+       List<Reserva> reservas = mongoTemplate.aggregate(aggregation, "nombreDeTuColeccion", Reserva.class).getMappedResults();
+        model.addAttribute("consumosXFecha", reservas);
+        
+        return "usuarioreq5";
     }
 }
 
