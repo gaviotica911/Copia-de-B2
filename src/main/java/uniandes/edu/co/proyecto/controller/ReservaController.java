@@ -14,6 +14,7 @@ import com.mongodb.client.AggregateIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import uniandes.edu.co.proyecto.Modelo.Reserva;
-
+import uniandes.edu.co.proyecto.Modelo.ResultadoReq2;
 import uniandes.edu.co.proyecto.repositorio.ReservaRepository;
 
 
@@ -124,28 +125,44 @@ private MongoTemplate mongoTemplate;
 
     @GetMapping("/reservas/req2")
     public String mostrarResultados(Model model) {
-        LookupOperation lookupOperation = LookupOperation.newLookup()
+        // Definir las operaciones de agregación
+        LookupOperation lookupHabitacion = LookupOperation.newLookup()
                 .from("habitacion")
                 .localField("habitacionId")
                 .foreignField("_id")
                 .as("habitacion");
 
-                Aggregation aggregation = Aggregation.newAggregation(
-                    Aggregation.unwind("$habitacionId"),
-                    lookupOperation,
-                    Aggregation.lookup("consumos", "_id", "idReserva", "consumo"),
-                    Aggregation.unwind("$consumo"),
-                    Aggregation.match(Criteria.where("consumo.fecha")
-                            .gte(new java.util.Date(1672531200000L))
-                            .lt(new java.util.Date(1704067200000L))),
-                    Aggregation.group("$habitacion._id").sum("precio").as("totalConsumos")
-            );
+        LookupOperation lookupConsumos = LookupOperation.newLookup()
+                .from("consumos")
+                .localField("_id")
+                .foreignField("idReserva")
+                .as("consumo");
 
-        List<Reserva> results = mongoTemplate.aggregate(aggregation, "reservas", Reserva.class).getMappedResults();
-        model.addAttribute("results", results);
+        // Filtro para la fecha
+        Criteria fechaCriteria = Criteria.where("consumo.fecha")
+                .gte(new java.util.Date(1672531200000L))
+                .lt(new java.util.Date(1704067200000L));
+
+        // Agregación
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.unwind("$habitacionId"),
+                lookupHabitacion,
+                lookupConsumos,
+                Aggregation.unwind("$consumo"),
+                Aggregation.match(fechaCriteria),
+                Aggregation.group("$habitacionId")
+                        .sum("consumo.precio").as("totalConsumos"),
+                Aggregation.project()
+                        .and("_id").as("habitacionId")
+                        .and("totalConsumos").as("totalConsumos")
+        );
+
+        // Ejecutar la consulta de agregación
+        List<ResultadoReq2> resultados = mongoTemplate.aggregate(aggregation, "reservas", ResultadoReq2.class).getMappedResults();
+
+        model.addAttribute("resultados", resultados);
 
         return "ReservaReq2";
     }
 
-    
 }
