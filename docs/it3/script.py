@@ -108,15 +108,14 @@ class Consumos:
         return ("db.reservas.update({" + a + "},{$push: { " + b + "} });")
 
 class Producto:
-    def __init__(self, id):
+    def __init__(self):
+        
         self.nombre = fake.word()
-        self.consumoid = fake.random_int(min=1, max=100, step=1)
-        self.id = id
-        self.tiendaid = fake.random_int(min=1, max=100, step=1)
-        self.smercadoid = fake.random_int(min=1, max=100, step=1)
-        self.preciofinal = random.randint(1000,1000000)
+        self.descripcion= fake.text(max_nb_chars=50)
     def sql_add(self):
-        return f"INSERT INTO productos (nombre, consumoid, id, tiendaid, smercadoid, preciofinal ) VALUES ('{self.nombre}', {self.consumoid}, {self.id}, {self.tiendaid}, {self.smercadoid}, {self.preciofinal});"
+        a= f"'nombre': '{self.nombre}', 'descripcion': '{ self.descripcion}' "
+        
+        return ("{" + a + "}")
 class Servicio:
     def __init__(self, id):
         self.id = id
@@ -196,7 +195,7 @@ def populate(n):
 
     
     for i in range(1, n + 1):
-        x = Producto(i)
+        x = Producto()
         print(x.sql_add())
     for i in range(1, n + 1):
         x = Servicio(i)
