@@ -77,7 +77,7 @@ class Reservas:
     
     def sql_add(self):
         #return '{'+ f"'fechaentrada':  new Date('{self.fechaentrada}'), 'fechasalida': , 'numpersonas': , 'estado': , 'precioreserva': , 'docUsuario' :  ,'habitacionId':", "} "
-        return f"'fechaentrada': new Date('{self.fechaentrada}'), 'fechasalida': new Date('{self.fechasalida}'), 'numpersonas': {self.numpersonas} , 'estado':{self.estado} , 'precioreserva': {self.precio}, 'docUsuario' : '{self.doc}' , 'consumos':[] " #,'habitacionId': ObjectId('{habitacionid}')"
+        return f"'fechaEntrada': new Date('{self.fechaentrada}'), 'fechaSalida': new Date('{self.fechasalida}'), 'numPersonas': {self.numpersonas} , 'estado':{self.estado} , 'precioReserva': {self.precio}, 'docUsuario' : '{self.doc}' , 'consumos':[] " #,'habitacionId': ObjectId('{habitacionid}')"
     
     
 

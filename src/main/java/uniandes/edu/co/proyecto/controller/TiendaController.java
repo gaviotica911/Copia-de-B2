@@ -66,14 +66,14 @@ public class TiendaController {
 
     //Controladores para el manejo de Procuctos embebidos
 
-    @GetMapping("/addProducto")
+    @GetMapping("/addProductoT")
     public String anadirProducto(@RequestParam(name = "nombre", required= false) String nombre, Model model){
         model.addAttribute("nombreTienda", nombre);   
         model.addAttribute("producto", new ProductosEmbedded());
         return "addProductoForm";
     }
 
-    @PostMapping("/addProductoSave")
+    @PostMapping("/addProductoSaveT")
     public String añadirBebidaSave(@RequestParam("nombreTienda") String nombreTienda,
     @ModelAttribute("producto") ProductosEmbedded product){
 
