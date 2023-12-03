@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Consulta</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.3/css/bootstrap.min.css" />
+</head>
+<body>
+
+<div class="container mt-3">
+    <h1>Consumos por cada habitacion</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id Habitacion</th>
+                <th>Total Consumo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="resultados : ${resultados}">
+                <td th:text="${resultados.habitacionId}"></td>
+                <td th:text="${resultados.totalConsumos}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="/webjars/bootstrap/4.5.3/js/bootstrap.min.js"></script>
+
+</body>
+</html>
