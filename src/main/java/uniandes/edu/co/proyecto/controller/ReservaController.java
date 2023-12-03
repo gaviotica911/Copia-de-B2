@@ -2,6 +2,14 @@ package uniandes.edu.co.proyecto.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Arrays;
+import org.bson.Document;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.conversions.Bson;
+import java.util.concurrent.TimeUnit;
+import org.bson.Document;
+import com.mongodb.client.AggregateIterable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -114,13 +122,30 @@ private MongoTemplate mongoTemplate;
         return "usuarioreq5";
     }
 
+    @GetMapping("/reservas/req2")
+    public String mostrarResultados(Model model) {
+        LookupOperation lookupOperation = LookupOperation.newLookup()
+                .from("habitacion")
+                .localField("habitacionId")
+                .foreignField("_id")
+                .as("habitacion");
 
+                Aggregation aggregation = Aggregation.newAggregation(
+                    Aggregation.unwind("$habitacionId"),
+                    lookupOperation,
+                    Aggregation.lookup("consumos", "_id", "idReserva", "consumo"),
+                    Aggregation.unwind("$consumo"),
+                    Aggregation.match(Criteria.where("consumo.fecha")
+                            .gte(new java.util.Date(1672531200000L))
+                            .lt(new java.util.Date(1704067200000L))),
+                    Aggregation.group("$habitacion._id").sum("precio").as("totalConsumos")
+            );
 
-   
+        List<Reserva> results = mongoTemplate.aggregate(aggregation, "reservas", Reserva.class).getMappedResults();
+        model.addAttribute("results", results);
 
+        return "ReservaReq2";
+    }
 
-
-
-    
     
 }
