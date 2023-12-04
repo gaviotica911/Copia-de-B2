@@ -29,20 +29,20 @@ public  class Reserva {
     private double precioreserva;
     @Field ("docUsuario")
     private String docUsuario;
-    @Field("habitacionId")
-    private List<String> habitacionId;
+    @Field("habitaciones")
+    private List<String> habitaciones;
  
    
 
     public Reserva(Date fechaentrada, Date fechasalida, Integer numpersonas, boolean estado, double precioreserva,
-            String docUsuario, List<String>  habitacionId) {
+            String docUsuario, List<String>  habitaciones) {
         this.fechaentrada = fechaentrada;
         this.fechasalida = fechasalida;
         this.numpersonas = numpersonas;
         this.estado = estado;
         this.precioreserva = precioreserva;
         this.docUsuario = docUsuario;
-        this.habitacionId = habitacionId;
+        this.habitaciones = habitaciones;
 
      
     }
@@ -105,11 +105,11 @@ public  class Reserva {
     public void setDocUsuario(String docUsuario) {
         this.docUsuario = docUsuario;
     }
-    public List<String>  getHabitacionId() {
-        return habitacionId;
+    public List<String>  getHabitaciones() {
+        return habitaciones;
     }
-    public void setHabitacionId (List<String>  habitacionId) {
-        this.habitacionId = habitacionId;
+    public void setHabitaciones (List<String>  habitaciones) {
+        this.habitaciones = habitaciones;
     }
 
     

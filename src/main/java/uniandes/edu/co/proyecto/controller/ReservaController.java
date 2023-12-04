@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import uniandes.edu.co.proyecto.Modelo.Reserva;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReq2;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReqAvanzado;
+import uniandes.edu.co.proyecto.repositorio.HabitacionRepository;
 import uniandes.edu.co.proyecto.repositorio.ReservaRepository;
 
 
@@ -33,6 +34,9 @@ public class ReservaController {
 
     @Autowired
     private ReservaRepository reservaRepository;
+    
+    @Autowired
+    private HabitacionRepository  habitacionRepository;
 
     @Autowired
 private MongoTemplate mongoTemplate;
