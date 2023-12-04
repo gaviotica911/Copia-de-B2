@@ -12,7 +12,8 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
-
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -29,7 +30,6 @@ import uniandes.edu.co.proyecto.Modelo.Consumo;
 import uniandes.edu.co.proyecto.Modelo.PlatosYBebidasEmbedded;
 import uniandes.edu.co.proyecto.Modelo.ProductosEmbedded;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReq3;
-
 import uniandes.edu.co.proyecto.repositorio.ConsumoRepository;
 
 
@@ -169,46 +169,6 @@ public class ConsumoController {
             consumo.setPlatosybebidas(emptyList);
             }
             consumo.addPlatoYBebida(nuevoPlatoYBebida);
-
-            //Persistemos la modificacion en la base de datos
-            consumoRepository.save(consumo);
-        }
-
-        return "redirect:/consumos";
-
-    }
-
-    @GetMapping("/addServicio")
-    public String anadirServicio(@RequestParam(name = "nombre", required = false) String nombre, Model model){
-        model.addAttribute("id", nombre);
-        model.addAttribute("servicio", new ServicioEmbedded());
-
-        return "addServicioForm";
-    }
-
-    @PostMapping("/addServicioSave")
-    public String añadirBebidaSave(@RequestParam("nombre") String nombreTipoPlatoYBebida,
-    @ModelAttribute("platoybebida") ServicioEmbedded servicio){
-
-        // Creamos una nueva bebida utilizando los datos del formulario
-        ServicioEmbedded nuevoServicio = new ServicioEmbedded(
-            servicio.getDescripcion(),
-            servicio.getTipo(),
-            servicio.getDuracion()
-        );
-
-        //Buscamos los consumos con ese id
-        Optional<Consumo> consumoOpt = consumoRepository.findById(nombreTipoPlatoYBebida);
-
-        //Añadimos ese servicio al consumo con ese id
-        if (consumoOpt.isPresent()) {
-            Consumo consumo = consumoOpt.get();
-
-            if (consumo.getServicios() == null){
-            List<ServicioEmbedded> emptyList = new ArrayList<>();
-            consumo.setServicios(emptyList);
-            }
-            consumo.addServicio(nuevoServicio);
 
             //Persistemos la modificacion en la base de datos
             consumoRepository.save(consumo);
