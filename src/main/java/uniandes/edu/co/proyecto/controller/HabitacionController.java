@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uniandes.edu.co.proyecto.Modelo.TipoHabitacionEmbedded;
+import uniandes.edu.co.proyecto.Modelo.Bar;
 import uniandes.edu.co.proyecto.Modelo.Habitacion;
-import uniandes.edu.co.proyecto.Modelo.ProductosEmbedded;
-import uniandes.edu.co.proyecto.Modelo.Tienda;
+import uniandes.edu.co.proyecto.Modelo.PlatosYBebidasEmbedded;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -92,11 +92,14 @@ public class HabitacionController {
         Optional<Habitacion> habitacionOpt = habitacionRepository.findById(id);
 
         //Añadimos ese tipoHabitacion a todas las Habitaciones con ese id
-        
         if (habitacionOpt.isPresent()) {
             Habitacion habitacion = habitacionOpt.get();
 
-            habitacion.setTipoHabitacion(nuevoTipoHabitacion);
+            if (habitacion.getTipoHabitacion() == null) {
+                List<TipoHabitacionEmbedded> emptyList = new ArrayList<>();
+                habitacion.setTipoHabitacion(emptyList);
+                habitacion.addTipoHabitacion(nuevoTipoHabitacion);
+            }
 
             //Persistemos la modificacion en la base de datos
             habitacionRepository.save(habitacion);

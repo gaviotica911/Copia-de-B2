@@ -13,19 +13,8 @@
         <form>
             
             <label class="col-form-label">Capacidad</label>
-            <input class="form-control" type="text" id="capacidad"
+            <input class="form-control" type="number" id="capacidad"
             name="capacidad" required th:value="${habitaciones.capacidad}"/>
-            
-            <label class="col-form-label" for="tipoId">Tipo:</label>
-            <select class="form-control" id="tipoId" name="tipoId" required>
-                <th:block th:each="tipoId : ${tipos}" >
-                    <option th:value="${tipoId.id}" th:text="${tipoId.tipo}" th:selected="${habitaciones != null && habitaciones.tipoId != null && habitaciones.tipoId.id == tipoId.id}"></option>
-                </th:block>
-            </select><br>
-
-
-           
-
 
             <div class="text_center">
                 <input type="submit" value="Guardar" class="btn btn-primary"/>
