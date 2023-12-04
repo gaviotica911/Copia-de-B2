@@ -1,5 +1,7 @@
 package uniandes.edu.co.proyecto.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationExpression;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.ConditionalOperators.Cond;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import uniandes.edu.co.proyecto.Modelo.Reserva;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReq2;
+import uniandes.edu.co.proyecto.Modelo.ResultadoReq1;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReqAvanzado;
 import uniandes.edu.co.proyecto.repositorio.ReservaRepository;
 
@@ -95,7 +99,39 @@ private MongoTemplate mongoTemplate;
         return "redirect:/reservas";
     }
 
+    @GetMapping("/reservas/req1")
+    public String mostrarResultados2(Model model) {
+        // Definir las operaciones de agregación
+        
+        LocalDate oneYearAgo = LocalDate.now().minusYears(1);
+        Date oneYearAgoDate = Date.from(oneYearAgo.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
+        // Build the aggregation pipeline
+        Aggregation aggregation = Aggregation.newAggregation(
+            Aggregation.match(
+                Criteria.where("fechaEntrada").gte(oneYearAgoDate).orOperator(
+                    Criteria.where("fechaSalida").gte(oneYearAgoDate)
+                )
+            ),
+            Aggregation.unwind("habitacionId"),
+            Aggregation.project()
+                .and("habitacionId").as("habitacionId")
+                .andExpression("(fechaSalida - fechaEntrada) / 86400000").as("duracionEstadia"), // 86400000 = milliseconds in a day
+            Aggregation.group("habitacionId")
+                .sum("duracionEstadia").as("totalDiasOcupados"),
+            Aggregation.project()
+                .and("_id").as("habitacionId")
+                .andExpression("(totalDiasOcupados / 365) * 100").as("porcentajeOcupacion")
+        );
+
+
+        // Ejecutar la consulta de agregación
+        List<ResultadoReq1> resultados = mongoTemplate.aggregate(aggregation, "reservas", ResultadoReq1.class).getMappedResults();
+
+        model.addAttribute("resultados", resultados);
+
+        return "ReservaReq1";
+    }
    
 
     @GetMapping("/reservas/req2")

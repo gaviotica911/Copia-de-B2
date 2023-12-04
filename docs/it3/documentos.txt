@@ -268,6 +268,50 @@ db.getCollection('reservas').aggregate(
   { maxTimeMS: 60000, allowDiskUse: true }
 );
 
+consulta 2:
+db.reservas.aggregate([
+    {
+        $match: {
+            $or: [
+                { fechaEntrada: { $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } },
+                { fechaSalida: { $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } }
+            ]
+        }
+    },
+    {
+        $unwind: "$habitacionId"
+    },
+    {
+        $project: {
+            habitacionId: 1,
+            duracionEstadia: {
+                $divide: [
+                    { $subtract: ["$fechaSalida", "$fechaEntrada"] },
+                    1000 * 60 * 60 * 24
+                ]
+            }
+        }
+    },
+    {
+        $group: {
+            _id: "$habitacionId",
+            totalDiasOcupados: { $sum: "$duracionEstadia" }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            habitacionId: "$_id",
+            porcentajeOcupacion: {
+                $multiply: [
+                    { $divide: ["$totalDiasOcupados", 365] },
+                    100
+                ]
+            }
+        }
+    }
+]);
+
 consulta 3:
 db.consumos.aggregate([
     {
