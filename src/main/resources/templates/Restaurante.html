@@ -17,7 +17,7 @@
                 <th>Horario Apertura</th>
                 <th>Horario Cierre</th>
                 <th>Capacidad</th>
-
+                <th>Platos y Bebidas [nombre, descripcion]</th>
             </tr>
         </thead>
         <th:block th:each="restaurante:${restaurantes}">
@@ -28,6 +28,16 @@
                 <td th:text="${restaurante.horarioapertura}"></td>
                 <td th:text="${restaurante.horariocierre}"></td>
                 <td th:text="${restaurante.capacidad}"></td>
+                <td>
+                    <!-- Iteramos sobre la lista de bebidas y mostramos los detalles -->
+                    <ul th:if="${restaurante.platosybebidas != null}">
+                        <li th:each="platosybebidas : ${restaurante.platosybebidas}">
+                            <span th:text="${platosybebidas.nombre + ', ' + platosybebidas.descripcion}"></span>
+                        </li>
+                    </ul>
+                    <!-- Botón para redirigir al formulario de adición de la bebida -->
+                    <a th:href="@{'/addPlatoYBebida?nombre=' + ${restaurante.nombre}}" class="btn btn-primary">Añadir Plato/Bebida</a>
+                </td>
                 <td>
                     <a th:href="@{/restaurantes/{id}/edit(id=${restaurante.id})}" >Editar</a>
                     <a th:href="@{/restaurantes/{id}/delete(id=${restaurante.id})} "onclick = "return confirm ('Estas seguro de borrar este restaurante?')" >Eliminar</a>

@@ -27,18 +27,18 @@ public class Consumo {
     private List<PlatosYBebidasEmbedded> platosybebidas;
 
     @Field("servicios")
-    private List<ServicioEmbedded> servicios;
+    private List<String> serviciosid;
 
     @Field("reservasid")
     private List<String> reservasid;
 
     public Consumo(Date fecha, double precio, List<ProductosEmbedded> productos,
-            List<PlatosYBebidasEmbedded> platosybebidas, List<ServicioEmbedded> servicios, List<String> reservasid) {
+            List<PlatosYBebidasEmbedded> platosybebidas, List<String> serviciosid, List<String> reservasid) {
         this.fecha = fecha;
         this.precio = precio;
         this.productos = productos;
         this.platosybebidas = platosybebidas;
-        this.servicios = servicios;
+        this.serviciosid = serviciosid;
         this.reservasid = reservasid;
     }
 
@@ -84,12 +84,12 @@ public class Consumo {
         this.platosybebidas = platosybebidas;
     }
 
-    public List<ServicioEmbedded> getServicios() {
-        return servicios;
+    public List<String> getServicios() {
+        return serviciosid;
     }
 
-    public void setServicios(List<ServicioEmbedded> servicios) {
-        this.servicios = servicios;
+    public void setServicios(List<String> serviciosid) {
+        this.serviciosid = serviciosid;
     }
 
     public List<String> getReservasid() {
@@ -108,7 +108,4 @@ public class Consumo {
         this.platosybebidas.add(platoYBebida);
     }
     
-    public void addServicio(ServicioEmbedded servicio) {
-        this.servicios.add(servicio);
-    }
 }

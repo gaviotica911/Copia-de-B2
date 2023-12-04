@@ -13,20 +13,29 @@
             <tr>
                 <th>id</th>
                 <th>capacidad</th>
-                <th>tipoId</th>
+                <th>TipoHabitacion [tipo, descripcion]</th>
                 <th>Acciones</th>
             </tr>
         </thead>
-        <th:block th:each="habitaciones:${habitaciones}">
+        <th:block th:each="habitacion:${habitaciones}">
             <tr>
-                <td th:text="${habitaciones.id}"></td>
-                <td th:text="${habitaciones.capacidad}"></td>
-                <td th:text="${habitaciones.tipoId.tipo}"></td>
-     
+                <td th:text="${habitacion.id}"></td>
+                <td th:text="${habitacion.capacidad}"></td>
+                <td th:text="${habitacion.tipo}"></td>
+                
+                <td>
+                    <!-- Iteramos sobre la lista de bebidas y mostramos los detalles -->
+                    <ul th:if="${habitacion.tipo != null}">
+                        <li th:each="tipoHabitacion : ${habitacion.tipo}">
+                            <span th:text="${tipoHabitacion.tipo + ', ' + tipoHabitacion.descripcion}"></span>
+                        </li>
+                    </ul>
+                </td>
+
                 <td>
                     <a th:href="@{/habitaciones/{id}/edit(id=${habitaciones.id})}" >Editar</a>
                     <a th:href="@{/habitaciones/{id}/delete(id=${habitaciones.id})} "onclick = "return confirm ('Estas seguro de borrar esta habitacion?')" > Eliminar</a>
-
+                </td>
             </tr>
 
 

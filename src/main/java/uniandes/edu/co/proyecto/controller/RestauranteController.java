@@ -66,14 +66,15 @@ public class RestauranteController {
     @PostMapping("/restaurantes/new/save")
     public String crearRestauranteBebida(@ModelAttribute("restaurante") Restaurante restaurante) {
 
-        // Guardamos el nuevo tipo de bebida
+        // Guardamos el nuevo restaurante
         restauranteRepository.save(restaurante);
         return "redirect:/restaurantes";
     }
 
     @GetMapping("/addPlatoYBebida")
     public String añadirBebida(@RequestParam(name = "nombre", required = false) String nombre, Model model){
-        model.addAttribute("nombreTipoPlatoYBebida", nombre);
+        //nombreRestaurante
+        model.addAttribute("nombreRestaurante", nombre);
         model.addAttribute("platoybebida", new PlatosYBebidasEmbedded());
 
 
@@ -81,7 +82,7 @@ public class RestauranteController {
     }
 
     @PostMapping("/addPlatoYBebidaSave")
-    public String añadirBebidaSave(@RequestParam("nombreTipoPlatoYBebida") String nombreTipoPlatoYBebida,
+    public String añadirBebidaSave(@RequestParam("nombreRestaurante") String nombreRestaurante,
     @ModelAttribute("platoybebida") PlatosYBebidasEmbedded platoybebida){
 
         // Creamos una nueva bebida utilizando los datos del formulario
@@ -90,19 +91,19 @@ public class RestauranteController {
             platoybebida.getDescripcion()
         );
 
-        //Buscamos los tipos de bebida con ese nombre
-        List<Restaurante> platosybebidas = restauranteRepository.findByNombre(nombreTipoPlatoYBebida);
+        //Buscamos los restaurantes con ese nombre
+        List<Restaurante> restaurantes = restauranteRepository.findByNombre(nombreRestaurante);
 
         //Añadimos esa bebida a todos los tipos de bebidas con ese nombre
-        for (Restaurante tipoPlatoYBebida:platosybebidas){
-            if (tipoPlatoYBebida.getPlatosybebidas() == null){
+        for (Restaurante restaurante :restaurantes){
+            if (restaurante.getPlatosybebidas() == null){
                 List<PlatosYBebidasEmbedded> emptyList = new ArrayList<>();
-                tipoPlatoYBebida.setPlatosybebidas(emptyList);
+                restaurante.setPlatosybebidas(emptyList);
             }
-            tipoPlatoYBebida.addPlatoYBebida(nuevoPlatoYBebida);
+            restaurante.addPlatoYBebida(nuevoPlatoYBebida);
 
             //Persistemos la modificacion en la base de datos
-            restauranteRepository.save(tipoPlatoYBebida);
+            restauranteRepository.save(restaurante);
         }
         
         return "redirect:/restaurantes";
