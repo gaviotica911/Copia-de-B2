@@ -111,6 +111,162 @@
   }
 }
 
+//servicios
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'descripcion',
+      'tipo'
+    ],
+    properties: {
+      descripcion: {
+        bsonType: 'string'
+      },
+      tipo: {
+        bsonType: 'string'
+      },
+      duracion: {
+        bsonType: 'int',
+        minimum: 0
+      }
+    }
+  }
+}
+
+//tiendas
+
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'nombre',
+      'horarioapertura',
+      'horariocierre',
+      'capacidad'
+    ],
+    properties: {
+      nombre: {
+        bsonType: 'string'
+      },
+      horarioapertura: {
+        bsonType: 'date'
+      },
+      capacidad: {
+        bsonType: 'int'
+      },
+      productos: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'object',
+          required: [
+            'nombre',
+            'descripcion'
+          ],
+          properties: {
+            nombre: {
+              bsonType: 'string'
+            },
+            descripcion: {
+              bsonType: 'string'
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//bares
+
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'nombre',
+      'horarioapertura',
+      'horariocierre',
+      'capacidad'
+    ],
+    properties: {
+      nombre: {
+        bsonType: 'string'
+      },
+      horarioapertura: {
+        bsonType: 'date'
+      },
+      capacidad: {
+        bsonType: 'int'
+      },
+      platosybebidas: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'object',
+          required: [
+            'nombre',
+            'descripcion'
+          ],
+          properties: {
+            nombre: {
+              bsonType: 'string'
+            },
+            descripcion: {
+              bsonType: 'string'
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+consulta2:
+db.getCollection('reservas').aggregate(
+  [
+    { $unwind: { path: '$habitacionId' } },
+    {
+      $lookup: {
+        from: 'habitacion',
+        localField: 'habitacionId',
+        foreignField: '_id',
+        as: 'habitacion'
+      }
+    },
+    {
+      $lookup: {
+        from: 'consumos',
+        localField: '_id',
+        foreignField: 'idReserva',
+        as: 'consumo'
+      }
+    },
+    { $unwind: { path: '$consumo' } },
+    {
+      $match: {
+        'consumo.fecha': {
+          $gte: ISODate(
+            '2023-01-01T00:00:00.000Z'
+          ),
+          $lt: ISODate('2024-01-01T00:00:00.000Z')
+        }
+      }
+    },
+    {
+      $group: {
+        _id: '$habitacionId',
+        totalConsumos: { $sum: '$consumo.precio' }
+      }
+    },
+    {
+      $project: {
+        habitacionId: '$_id',
+        totalConsumos: 1,
+        _id: 0
+      }
+    }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
 
 consulta 3:
 db.consumos.aggregate([
@@ -158,4 +314,117 @@ db.consumos.aggregate([
         }
     }
 ]);
+
+consulta avanzada:
+db.getCollection('reservas').aggregate(
+  [
+    {
+      $match: {
+        fechaEntrada: {
+          $gte: ISODate(
+            '2023-01-01T00:00:00.000Z'
+          ),
+          $lt: ISODate('2024-01-01T00:00:00.000Z')
+        }
+      }
+    },
+    {
+      $group: {
+        _id: '$docUsuario',
+        trimestres: {
+          $addToSet: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $gte: [
+                      '$fechaEntrada',
+                      ISODate(
+                        '2023-01-01T00:00:00.000Z'
+                      )
+                    ]
+                  },
+                  {
+                    $lt: [
+                      '$fechaEntrada',
+                      ISODate(
+                        '2023-04-01T00:00:00.000Z'
+                      )
+                    ]
+                  }
+                ]
+              },
+              1,
+              {
+                $cond: [
+                  {
+                    $and: [
+                      {
+                        $gte: [
+                          '$fechaEntrada',
+                          ISODate(
+                            '2023-04-01T00:00:00.000Z'
+                          )
+                        ]
+                      },
+                      {
+                        $lt: [
+                          '$fechaEntrada',
+                          ISODate(
+                            '2023-07-01T00:00:00.000Z'
+                          )
+                        ]
+                      }
+                    ]
+                  },
+                  2,
+                  {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gte: [
+                              '$fechaEntrada',
+                              ISODate(
+                                '2023-07-01T00:00:00.000Z'
+                              )
+                            ]
+                          },
+                          {
+                            $lt: [
+                              '$fechaEntrada',
+                              ISODate(
+                                '2023-10-01T00:00:00.000Z'
+                              )
+                            ]
+                          }
+                        ]
+                      },
+                      3,
+                      4
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        fechas: { $addToSet: '$fechaEntrada' }
+      }
+    },
+    {
+      $match: {
+        trimestres: { $all: [1, 2, 3, 4] }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        docUsuario: '$_id',
+        fechas: 1
+      }
+    }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
 
