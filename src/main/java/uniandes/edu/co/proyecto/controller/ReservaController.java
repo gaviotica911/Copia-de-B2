@@ -1,13 +1,15 @@
 package uniandes.edu.co.proyecto.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationExpression;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
-
+import org.springframework.data.mongodb.core.aggregation.ConditionalOperators.Cond;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import uniandes.edu.co.proyecto.Modelo.Reserva;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReq2;
+import uniandes.edu.co.proyecto.Modelo.ResultadoReqAvanzado;
 import uniandes.edu.co.proyecto.repositorio.ReservaRepository;
 
 
@@ -137,5 +140,48 @@ private MongoTemplate mongoTemplate;
         return "ReservaReq2";
     }
 
+    @GetMapping("/reservas/reqAvanzado")
+    public String mostrarReqAvanzado(Model model) {
+
+        // Fechas de inicio y fin para la comparación
+        Date startDate = new Date(1672531200000L);  // Ajusta estas fechas según tu lógica
+        Date endDate = new Date(1704067200000L);
+
+        // Expresiones condicionales para los trimestres
+        AggregationExpression firstTrimesterExpression = Cond.newBuilder()
+                .when(Criteria.where("fechaEntrada").gte(startDate).lt(new Date(1680307200000L)))
+                .then(1)
+                .otherwise(0);
+
+        AggregationExpression secondTrimesterExpression = Cond.newBuilder()
+                .when(Criteria.where("fechaEntrada").gte(new Date(1680307200000L)).lt(new Date(1688169600000L)))
+                .then(2)
+                .otherwise(0);
+
+        AggregationExpression thirdTrimesterExpression = Cond.newBuilder()
+                .when(Criteria.where("fechaEntrada").gte(new Date(1688169600000L)).lt(new Date(1696118400000L)))
+                .then(3)
+                .otherwise(0);
+
+        // Operación de agregación
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("fechaEntrada").gte(startDate).lt(endDate)),
+                Aggregation.group("docUsuario")
+                        .addToSet(firstTrimesterExpression).as("firstTrimester")
+                        .addToSet(secondTrimesterExpression).as("secondTrimester")
+                        .addToSet(thirdTrimesterExpression).as("thirdTrimester")
+                        .addToSet("fechaEntrada").as("fechas"),
+                Aggregation.match(Criteria.where("firstTrimester").is(1).and("secondTrimester").is(2).and("thirdTrimester").is(3)),
+                Aggregation.project().andExclude("_id")
+                        .and("docUsuario").as("docUsuario")
+                        .andInclude("fechas")
+        );
+
+        // Ejecutar la consulta de agregación
+        List<ResultadoReqAvanzado> resultados = mongoTemplate.aggregate(aggregation, "reservas", ResultadoReqAvanzado.class).getMappedResults();
+        model.addAttribute("resultados", resultados);
+
+        return "ReservaReqAvanzado";
+    }
 
 }
