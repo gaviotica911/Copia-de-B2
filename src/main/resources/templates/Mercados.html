@@ -35,8 +35,9 @@
                         </li>
                     </ul>
                     <!-- Botón para redirigir al formulario de adición de la bebida -->
-                    <a th:href="@{'/addProducto?nombre=' + ${Mercados.nombre}}" class="btn btn-primary">Añadir Producto</a>
+                    <a th:href="@{'/addProductoM?nombre=' + ${Mercados.nombre}}" class="btn btn-primary">Añadir Producto</a>
                 <td>
+                    
                 <td>
                     <a th:href="@{/mercados/{id}/edit(id=${Mercados.id})}" >Editar</a>
                     <a th:href="@{/mercados/{id}/delete(id=${Mercados.id})} "onclick = "return confirm ('Estas seguro de borrar este utensilio?')" > Eliminar</a>

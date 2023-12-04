@@ -71,17 +71,15 @@ public class RestauranteController {
         return "redirect:/restaurantes";
     }
 
-    @GetMapping("/addPlatoYBebida")
+    @GetMapping("/addBebidaR")
     public String añadirBebida(@RequestParam(name = "nombre", required = false) String nombre, Model model){
-        //nombreRestaurante
         model.addAttribute("nombreRestaurante", nombre);
         model.addAttribute("platoybebida", new PlatosYBebidasEmbedded());
-
 
         return "addPlatoYBebidaForm";
     }
 
-    @PostMapping("/addPlatoYBebidaSave")
+    @PostMapping("/addBebidaSaveR")
     public String añadirBebidaSave(@RequestParam("nombreRestaurante") String nombreRestaurante,
     @ModelAttribute("platoybebida") PlatosYBebidasEmbedded platoybebida){
 
