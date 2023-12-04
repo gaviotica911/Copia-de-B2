@@ -175,3 +175,50 @@ db.consumos.insertMany([
 ]
 )
 
+consulta 3:
+db.consumos.aggregate([
+    {
+        $lookup: {
+            from: "reservas",
+            localField: "idReserva",
+            foreignField: "_id",
+            as: "reservas"
+        }
+    },
+    {
+        $unwind: "$reservas"
+    },
+    {
+        $match: {
+            "reservas.docUsuario": "121",
+            "fecha": {
+                $gte: new Date("2000-01-01"),
+                $lte: new Date("2024-12-12")
+            }
+        }
+    },
+    {
+        $project: {
+            docUsuario: "$reservas.docUsuario",
+            consumos: {
+                $setUnion: [
+                    { $ifNull: ["$platosYbebidas", []] },
+                    { $ifNull: ["$servicios", []] },
+                    { $ifNull: ["$productos", []] }
+                ]
+            }
+        }
+    },
+    { $unwind: "$consumos" },
+    {
+        $replaceRoot: { newRoot: "$consumos" }
+    },
+    {
+        $project: {
+            docUsuario: 1,
+            consumo: "$nombre",
+            precio: "$precio"
+        }
+    }
+]);
+
