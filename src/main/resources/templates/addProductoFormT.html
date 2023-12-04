@@ -16,7 +16,7 @@
     </div>
 
     <!-- Formulario de creación -->
-    <form th:action="@{/addProductoSave}" th:object="${producto}" method="post" style="margin-top: 35px;">
+    <form th:action="@{/addProductoSaveT}" th:object="${producto}" method="post" style="margin-top: 35px;">
 
         <!-- Campo oculto para la variable nombreTipoBebida -->
         <input type="hidden" id="nombreTienda" name="nombreTienda" th:value="${nombreTienda}" />

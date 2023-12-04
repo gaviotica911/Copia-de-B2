@@ -70,7 +70,7 @@ public class TiendaController {
     public String anadirProducto(@RequestParam(name = "nombre", required= false) String nombre, Model model){
         model.addAttribute("nombreTienda", nombre);   
         model.addAttribute("producto", new ProductosEmbedded());
-        return "addProductoForm";
+        return "addProductoFormT";
     }
 
     @PostMapping("/addProductoSaveT")
