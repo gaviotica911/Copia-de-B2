@@ -33,7 +33,12 @@
                     <td th:text="${reservas.estado}"></td>
                     <td th:text="${reservas.precioreserva}"></td>
                     <td th:text="${reservas.docUsuario}"></td>
-                    <td th:text="${reservas.habitacionId}"></td>
+                    <td>
+                        <span th:each="habitacion, iterStat : ${reservas.habitaciones}">
+                            <span th:text="${habitacion}"></span>
+                            <span th:unless="${iterStat.last}">, </span>
+                        </span>
+                    </td>
                     <td>
                         <a th:href="@{reservas/{id}/edit(id=${reservas.id})}">
                             Editar

@@ -19,7 +19,7 @@
                     <th>Estado</th>
                     <th>Precio Reserva</th>
                     <th>Documento Usuario</th>
-                    <th>Habitacion</th>
+               
                     <th>Acciones</th>
                     
                 </tr>
@@ -33,7 +33,7 @@
                     <td th:text="${reservas.estado}"></td>
                     <td th:text="${reservas.precioreserva}"></td>
                     <td th:text="${reservas.docUsuario}"></td>
-                    <td th:text="${reservas.habitacionId}"></td>
+                   
                     <td>
                         <a th:href="@{reservasIO/{id}/checkIn(id=${reservas.id})}">
                             Hacer check In
