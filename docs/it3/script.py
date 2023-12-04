@@ -227,7 +227,91 @@ def populateTipos(n):
         print(x.sql_add())
     
 
-    
+nombres_de_tiendas_reales = [
+    "Gucci",
+    "Adidas",
+    "Nike",
+    "Apple",
+    "Samsung",
+    "Amazon",
+    "Louis Vuitton",
+    "Chanel",
+    "Zara",
+    "H&M",
+    "Prada",
+    "Rolex",
+    "Google",
+    "Microsoft",
+    "Coca-Cola",
+    "Toyota",
+    "Sony",
+    "L'Oreal",
+    "Starbucks",
+    "McDonald's",
+    "Burberry",
+    "Puma",
+    "Ferrari",
+    "Lamborghini",
+    "Mercedes-Benz",
+    "Volkswagen",
+    "Disney",
+    "Lego",
+    "IBM",
+    "Tesla"
+]
+
+class Bar:
+    def __init__(self, id):
+        self.id = id
+        self.nombre = fake.random_element(elements=nombres_de_tiendas_reales)
+        fecha = fecha_inicial + timedelta(seconds=(fecha_final - fecha_inicial).total_seconds() * random.random())
+        self.horarioapertura = fecha.strftime('%Y-%m-%dT%H:%M:%SZ')
+        self.horariocierre = (fecha + timedelta(hours=random.randint(1, 8))).strftime('%Y-%m-%dT%H:%M:%SZ')
+        self.capacidad = fake.random_int(min=15, max=200, step=1)
+        self.platosybebidas = [{"nombre": fake.text(max_nb_chars=15), "descripcion": fake.text(max_nb_chars=50)} for _ in range(random.randint(1, 5))]
+
+    def json_data(self):
+        return {
+            "nombre": self.nombre,
+            "horarioapertura": f"new Date('{self.horarioapertura}')",
+            "horariocierre": f"new Date('{self.horariocierre}')",
+            "capacidad": self.capacidad,
+            "productos": self.platosybebidas
+        }
+# Crear instancias de Bar y obtener datos en formato JSON
+bars_data = [bar.json_data() for bar in [Bar(str(i)) for i in range(1, 16)]]
+
+# Imprimir los datos generados en el formato deseado
+print("db.tiendas.insertMany([")
+for i, bar_data in enumerate(bars_data):
+    if i < len(bars_data) - 1:
+        print(f"{bar_data},")
+    else:
+        print(f"{bar_data}")
+print("]);")
+
+
+class Servicio:
+    def __init__(self, id):
+        self.id = id
+        self.descripcion = fake.text(max_nb_chars=50)
+        self.tipo = fake.random_element(elements=['Piscina', 'Gimnasio', 'Internet', 'Lavado, planchado', 'SPA', 'Utensilios', 'Salon de reuniones', 'Salon de conferencias', 'Parqueadero', 'Servicio a la habitacion', 'Servicio de tintoreria', 'Servicio de planchado', 'Servicio de traslado', 'Servicio de despertador', 'Servicio de limpieza en seco'])
+        self.duracion = fake.random_int(min=1, max=8, step=1)
+    def sql_add(self):
+        return f"descripcion: '{self.descripcion}', tipo: '{self.tipo}', duracion: {self.duracion}"
+
+
+def populateServicios(n):
+    print("db.Servicios.insertMany([ ")
+    for i in range(n):
+        if i<n-2:
+            x = Servicio(i)
+            print("{", x.sql_add(), "},")
+        elif i==n-1:
+            x = Servicio(i)
+            print("{", x.sql_add(), "}")
+    print("]);")
+
     
         
 
