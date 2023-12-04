@@ -220,7 +220,7 @@
   }
 }
 
-consulta2:
+consulta1:
 db.getCollection('reservas').aggregate(
   [
     { $unwind: { path: '$habitacionId' } },
