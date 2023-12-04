@@ -3,11 +3,17 @@ package uniandes.edu.co.proyecto.controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
-
-
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -23,8 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uniandes.edu.co.proyecto.Modelo.Consumo;
 import uniandes.edu.co.proyecto.Modelo.PlatosYBebidasEmbedded;
 import uniandes.edu.co.proyecto.Modelo.ProductosEmbedded;
-import uniandes.edu.co.proyecto.Modelo.Reserva;
-
+import uniandes.edu.co.proyecto.Modelo.ResultadoReq3;
 
 import uniandes.edu.co.proyecto.repositorio.ConsumoRepository;
 
@@ -45,7 +50,7 @@ public class ConsumoController {
     @GetMapping("/consumos")
     public String reservas(Model model) {
         model.addAttribute("consumos", consumoRepository.findAll());
-        return "consumo";
+        return "Consumos";
     }
 
     @GetMapping("/consumos/new")
@@ -174,27 +179,44 @@ public class ConsumoController {
 
     }
 
-     @GetMapping("/usuarios/RFC3")
-    public String RFC3(Model model, String id, String fecha1, String fecha2) {
-        LookupOperation lookupOperation = LookupOperation.newLookup()
-            .from("reservas")
-            .localField("idReserva")
-            .foreignField("_id")
-            .as("reservas");
+   @GetMapping("/consumos/RFC3")
+public String RFC3(Model model, String doc, String fecha1, String fecha2) throws ParseException {
+    if (doc == null || fecha1 == null || fecha2 == null) {
+        return "consumoReq3";
+    } else {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = formatter.parse(fecha1);
+        Date endDate = formatter.parse(fecha2);
 
-        Criteria idCriteria = Criteria.where("reservas.docUsuario").is(id);
-        Criteria fechaCriteria = Criteria.where("fecha").gte(fecha1).lte(fecha2);
-        Aggregation aggregation = Aggregation.newAggregation(
+        LookupOperation lookupOperation = lookup("reservas", "idReserva", "_id", "reservas");
+
+        Criteria criteria = Criteria.where("reservas.docUsuario").is(doc)
+            .and("fecha").gte(startDate).lte(endDate);
+
+        UnwindOperation unwindReservas = unwind("$reservas", true);
+        UnwindOperation unwindPlatosYbebidas = unwind("$platosYbebidas", true);
+        UnwindOperation unwindServicios = unwind("$servicios", true);
+        UnwindOperation unwindProductos = unwind("$productos", true);
+
+        ProjectionOperation projectConsumos = project()
+            .and("reservas.docUsuario").as("docUsuario")
+            .andInclude("platosYbebidas", "servicios", "productos");
+
+        Aggregation aggregation = newAggregation(
             lookupOperation,
-            Aggregation.match(idCriteria.andOperator(fechaCriteria))
+            unwindReservas,
+            match(criteria),
+            projectConsumos,
+            unwindPlatosYbebidas,
+            unwindServicios,
+            unwindProductos
         );
-        
-        
 
-       List<Reserva> reservas = mongoTemplate.aggregate(aggregation, "nombreDeTuColeccion", Reserva.class).getMappedResults();
-        model.addAttribute("consumosXFecha", reservas);
-        
-        return "usuarioreq5";
+        List<ResultadoReq3> resultados = mongoTemplate.aggregate(aggregation, "consumos", ResultadoReq3.class).getMappedResults();
+        model.addAttribute("resultados", resultados);
+
+        return "consumoReq3";
     }
 }
 
+}

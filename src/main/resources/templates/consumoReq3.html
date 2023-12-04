@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/css/jquery.min.js}"></script>
+    <script th:src="@{/css/bootstrap.min.js}"></script>
+    <title>Consumos</title>
+</head>
+<body>
+    <div> MOSTRAR EL CONSUMO EN HOTELANDES POR UN USUARIO DADO, EN UN RANGO DE FECHAS INDICADO. </div>
+
+    <div class="container w-25">
+        <div class="card border border-2 mx-auto">
+  
+          <h5 class="card-header" role='button' id="headingOne">
+            <a href="#" class="collapsed d-block" data-toggle="collapse" data-target="#busqueda">
+  
+              Búsqueda avanzada
+            </a>
+          </h5>
+          <div id="busqueda" class="collapse">
+            <form th:action="@{/consumos/RFC3}" method="get">
+
+              <label class="col-form-label">Doc Usuario :</label>
+              <input class="form-control" type="text" id="doc" name="doc" />
+  
+              <label class="col-form-label" for="fecha">Fecha 1: </label>
+        <input class="form-control" type="date" id="fecha1" name="fecha1" required><br>
+        
+
+        <label class="col-form-label" for="fecha">Fecha 2: </label>
+        <input class="form-control" type="date" id="fecha2" name="fecha2" required><br>
+  
+
+  
+              <div class="text-center">
+                <button type="submit" class="btn btn-secondary">Buscar</button>
+              </div>
+  
+              <br />
+            </form>
+          </div>
+        </div>
+      </div>
+  
+      <br />
+  
+  
+    
+
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>doc usuario</th>
+                <th>tipo consumo</th>
+                <th>costo</th>
+                
+
+            </tr>
+        </thead>
+        
+        <div th:each="resultado:${resultados}">
+            <p th:text="${resultado.consumo}"></p>
+            <!--
+        <th:block th:each="consumo:${consumos}">
+            <tr>
+            
+                <td th:text="${consumo.getUSUARIO_ID}"></td>
+                <td th:text="${consumo.getTIPO_CONSUMO}"></td>
+                <td th:text="${consumo.getCOSTO}"></td>
+            
+                
+                
+
+            </tr>
+
+    -->
+        </p>
+
+
+    </table>
+    <div>
+        <a th:href="@{/consumos}" class="btn btn-primary">Volver Atras</a>
+      
+</body>
+</html>
