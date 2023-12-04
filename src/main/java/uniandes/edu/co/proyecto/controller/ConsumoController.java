@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uniandes.edu.co.proyecto.Modelo.Consumo;
 import uniandes.edu.co.proyecto.Modelo.PlatosYBebidasEmbedded;
 import uniandes.edu.co.proyecto.Modelo.ProductosEmbedded;
+import uniandes.edu.co.proyecto.Modelo.ServicioEmbedded;
 import uniandes.edu.co.proyecto.Modelo.ResultadoReq3;
 import uniandes.edu.co.proyecto.repositorio.ConsumoRepository;
 
@@ -169,6 +170,45 @@ public class ConsumoController {
             consumo.setPlatosybebidas(emptyList);
             }
             consumo.addPlatoYBebida(nuevoPlatoYBebida);
+
+            //Persistemos la modificacion en la base de datos
+            consumoRepository.save(consumo);
+        }
+
+        return "redirect:/consumos";
+
+    }
+
+    @GetMapping("/addServicioC")
+    public String anadirServicio(@RequestParam(name = "id", required= false) String id, Model model){
+        model.addAttribute("idServicio", id);   
+        model.addAttribute("servicio", new ServicioEmbedded());
+        return "addServicioForm";
+    }
+
+    @PostMapping("/addServicioSaveC")
+    public String anadirServicioSave(@RequestParam("id") String id,
+    @ModelAttribute("servicio") ServicioEmbedded servicio){
+
+        // Creamos un nuevo producto utilizando los datos del formulario
+        ServicioEmbedded nuevoServicio = new ServicioEmbedded(
+            servicio.getDescripcion(),
+            servicio.getTipo(),
+            servicio.getDuracion()
+        );
+
+        //Buscamos los consumos con ese id
+        Optional<Consumo> consumoOpt = consumoRepository.findById(id);
+
+        //Añadimos ese producto al consumo con ese id
+        if (consumoOpt.isPresent()) {
+            Consumo consumo = consumoOpt.get();
+
+            if (consumo.getProductos() == null){
+            List<ServicioEmbedded> emptyList = new ArrayList<>();
+            consumo.setServicios(emptyList);
+            }
+            consumo.addServicio(nuevoServicio);
 
             //Persistemos la modificacion en la base de datos
             consumoRepository.save(consumo);

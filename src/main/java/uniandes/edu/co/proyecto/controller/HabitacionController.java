@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import uniandes.edu.co.proyecto.Modelo.TipoHabitacionEmbedded;
-import uniandes.edu.co.proyecto.Modelo.Bar;
 import uniandes.edu.co.proyecto.Modelo.Habitacion;
-import uniandes.edu.co.proyecto.Modelo.PlatosYBebidasEmbedded;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,23 +21,22 @@ import uniandes.edu.co.proyecto.repositorio.HabitacionRepository;
 public class HabitacionController {
     @Autowired
     private HabitacionRepository habitacionRepository;
-    
 
     @GetMapping("/habitaciones")
-    public String tipoHabitaciones(Model model){
+    public String habitaciones(Model model){
         model.addAttribute("habitaciones", habitacionRepository.findAll());
-        return "habitacion";
+        return "Habitacion";
     }
 
     @GetMapping("/habitaciones/new")
-    public String tipoHabitacionForm(Model model){
+    public String habitacionForm(Model model){
         model.addAttribute("habitacion", new Habitacion());
-        return "habitacionNueva";       
+        return "HabitacionNuevo";       
     }
 
     @PostMapping("/habitaciones/new/save")
-    public String tipoHabitacionGuardar(@ModelAttribute Habitacion Habitacion){
-        habitacionRepository.save(Habitacion);
+    public String habitacionGuardar(@ModelAttribute Habitacion habitacion){
+        habitacionRepository.save(habitacion);
         return "redirect:/habitaciones";
     }
 

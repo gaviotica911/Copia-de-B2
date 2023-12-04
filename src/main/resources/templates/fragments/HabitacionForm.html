@@ -14,7 +14,21 @@
             
             <label class="col-form-label">Capacidad</label>
             <input class="form-control" type="number" id="capacidad"
-            name="capacidad" required th:value="${habitaciones.capacidad}"/>
+            name="capacidad" required th:value="${habitacion.capacidad}"/>
+
+            <label class="col-form-label">TipoHabitacion</label>
+            <select class="form-control" id="tipo"
+            name="tipo" required>
+                <option value="DOBLE" th:selected="${habitacion.tipo.tipo eq 'DOBLE'}">DOBLE</option>
+                <option value="FAMILIAR" th:selected="${habitacion.tipo.tipo eq 'FAMILIAR'}">FAMILIAR</option>
+                <option value="PRESIDENCIAL" th:selected="${habitacion.tipo.tipo eq 'PRESIDENCIAL'}">PRESIDENCIAL</option>
+                <option value="SENCILLA" th:selected="${habitacion.tipo.tipo eq 'SENCILLA'}">SENCILLA</option>
+                <option value="SUITE" th:selected="${habitacion.tipo.tipo eq 'SUITE'}">SUITE</option>
+            </select>
+
+            <label class="col-form-label">Descripcion</label>
+            <input class="form-control" type="text" id="descripcion"
+            name="descripcion" required th:value="${habitacion.tipo.descripcion}"/>
 
             <div class="text_center">
                 <input type="submit" value="Guardar" class="btn btn-primary"/>

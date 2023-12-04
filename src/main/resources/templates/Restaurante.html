@@ -36,7 +36,7 @@
                         </li>
                     </ul>
                     <!-- Botón para redirigir al formulario de adición de la bebida -->
-                    <a th:href="@{'/addPlatoYBebida?nombre=' + ${restaurante.nombre}}" class="btn btn-primary">Añadir Plato/Bebida</a>
+                    <a th:href="@{'/addBebidaR?nombre=' + ${restaurante.nombre}}" class="btn btn-primary">Añadir Plato/Bebida</a>
                 </td>
                 <td>
                     <a th:href="@{/restaurantes/{id}/edit(id=${restaurante.id})}" >Editar</a>

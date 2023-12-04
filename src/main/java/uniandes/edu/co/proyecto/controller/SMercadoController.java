@@ -23,13 +23,13 @@ public class SMercadoController {
     @GetMapping("/mercados")
     public String mercados(Model model){
         model.addAttribute("mercados", sMercadoRepository.findAll());
-        return "SMercados";
+        return "Mercados";
     }
 
     @GetMapping("/mercados/new")
     public String mercadoForm(Model model){
         model.addAttribute("mercado", new SMercado());
-        return "SMercadoNuevo";       
+        return "MercadoNuevo";       
     }
 
     @PostMapping("/mercados/new/save")
@@ -45,7 +45,7 @@ public class SMercadoController {
             SMercado mercado = mercadoExistente.get();
             model.addAttribute("mercado", mercado);
         }
-        return "SMercadoEditar";
+        return "MercadoEditar";
         
     }
 
@@ -66,14 +66,14 @@ public class SMercadoController {
 
     //Controladores para el manejo de Procuctos embebidos
 
-    @GetMapping("/addProducto")
+    @GetMapping("/addProductoM")
     public String anadirProducto(@RequestParam(name = "nombre", required= false) String nombre, Model model){
         model.addAttribute("nombreSMercado", nombre);   
         model.addAttribute("producto", new ProductosEmbedded());
-        return "addProductoForm";
+        return "addProductoFormM";
     }
 
-    @PostMapping("/addProductoSave")
+    @PostMapping("/addProductoSaveM")
     public String añadirBebidaSave(@RequestParam("nombreSMercado") String nombreSMercado,
     @ModelAttribute("producto") ProductosEmbedded product){
 

@@ -19,22 +19,23 @@
         </thead>
         <th:block th:each="habitacion:${habitaciones}">
             <tr>
+
+
                 <td th:text="${habitacion.id}"></td>
                 <td th:text="${habitacion.capacidad}"></td>
-                <td th:text="${habitacion.tipo}"></td>
-                
                 <td>
                     <!-- Iteramos sobre la lista de bebidas y mostramos los detalles -->
                     <ul th:if="${habitacion.tipo != null}">
-                        <li th:each="tipoHabitacion : ${habitacion.tipo}">
-                            <span th:text="${tipoHabitacion.tipo + ', ' + tipoHabitacion.descripcion}"></span>
+                        <li th:each="tipo : ${habitacion.tipo}">
+                            <span th:text="${tipo.tipo + ', ' + tipo.descripcion}"></span>
                         </li>
                     </ul>
+                    <!-- Botón para redirigir al formulario de adición de la bebida -->
+                    <a th:href="@{'/addBebidaR?nombre=' + ${restaurante.nombre}}" class="btn btn-primary">Añadir TipoHabitacion</a>
                 </td>
-
                 <td>
-                    <a th:href="@{/habitaciones/{id}/edit(id=${habitaciones.id})}" >Editar</a>
-                    <a th:href="@{/habitaciones/{id}/delete(id=${habitaciones.id})} "onclick = "return confirm ('Estas seguro de borrar esta habitacion?')" > Eliminar</a>
+                    <a th:href="@{/habitaciones/{id}/edit(id=${habitacion.id})}" >Editar</a>
+                    <a th:href="@{/habitaciones/{id}/delete(id=${habitacion.id})} "onclick = "return confirm ('Estas seguro de borrar esta habitacion?')" > Eliminar</a>
                 </td>
             </tr>
 
