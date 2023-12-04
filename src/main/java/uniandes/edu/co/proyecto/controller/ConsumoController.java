@@ -12,7 +12,8 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
-
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -219,61 +220,44 @@ public class ConsumoController {
 
     }
 
-    @GetMapping("/consumos/RFC3")
+   @GetMapping("/consumos/RFC3")
+public String RFC3(Model model, String doc, String fecha1, String fecha2) throws ParseException {
+    if (doc == null || fecha1 == null || fecha2 == null) {
+        return "consumoReq3";
+    } else {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = formatter.parse(fecha1);
+        Date endDate = formatter.parse(fecha2);
 
-    public String RFC3(Model model, String doc, String fecha1, String fecha2) throws ParseException {
+        LookupOperation lookupOperation = lookup("reservas", "idReserva", "_id", "reservas");
 
-        if(doc == null || fecha1 == null || fecha2 == null){
-            return "consumoReq3";
-        }
-        else{
+        Criteria criteria = Criteria.where("reservas.docUsuario").is(doc)
+            .and("fecha").gte(startDate).lte(endDate);
 
-        // Formateador de fecha
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    
-    // Parseo de fechas
-    Date startDate = formatter.parse(fecha1);
-    Date endDate = formatter.parse(fecha2);
+        UnwindOperation unwindReservas = unwind("$reservas", true);
+        UnwindOperation unwindPlatosYbebidas = unwind("$platosYbebidas", true);
+        UnwindOperation unwindServicios = unwind("$servicios", true);
+        UnwindOperation unwindProductos = unwind("$productos", true);
 
-    // Operación de búsqueda (lookup)
-    LookupOperation lookupOperation = lookup("reservas", "idReserva", "_id", "reservas");
+        ProjectionOperation projectConsumos = project()
+            .and("reservas.docUsuario").as("docUsuario")
+            .andInclude("platosYbebidas", "servicios", "productos");
 
-    // Criterios de búsqueda
-    Criteria criteria = new Criteria().andOperator(
-            Criteria.where("reservas.docUsuario").is(doc),
-            Criteria.where("fecha").gte(startDate).lte(endDate)
-    );
+        Aggregation aggregation = newAggregation(
+            lookupOperation,
+            unwindReservas,
+            match(criteria),
+            projectConsumos,
+            unwindPlatosYbebidas,
+            unwindServicios,
+            unwindProductos
+        );
 
-    // Agregación
-    Aggregation aggregation = newAggregation(
-        lookupOperation,
-        unwind("$reservas", true),
-        match(criteria),
-        project("reservas.docUsuario")
-            .andExclude("_id")
-            .and("platosYbebidas").as("platosYbebidas")
-            .and("servicios").as("servicios")
-            .and("productos").as("productos"),
-        unwind("$platosYbebidas", true),
-        unwind("$servicios", true),
-        unwind("$productos", true),
-        project("docUsuario")
-            .and("platosYbebidas.nombre").as("platoYbebida")
-            .and("platosYbebidas.precio").as("precioPlatoYbebida")
-            .and("servicios.nombre").as("servicio")
-            .and("servicios.precio").as("precioServicio")
-            .and("productos.nombre").as("producto")
-            .and("productos.precio").as("precioProducto")
-    );
+        List<ResultadoReq3> resultados = mongoTemplate.aggregate(aggregation, "consumos", ResultadoReq3.class).getMappedResults();
+        model.addAttribute("resultados", resultados);
 
-    // Ejecución de la agregación
-    List<ResultadoReq3> resultados = mongoTemplate.aggregate(aggregation, "consumos", ResultadoReq3.class).getMappedResults();
-    System.out.println("------------");
-    System.out.println(resultados);
-    model.addAttribute("resultados", resultados);
-
-    return "consumoReq3";
-
-        }
+        return "consumoReq3";
+    }
 }
+
 }
