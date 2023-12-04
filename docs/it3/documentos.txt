@@ -159,3 +159,51 @@ db.consumos.aggregate([
     }
 ]);
 
+
+inserción de reservas:
+db.reservas.insertMany([ 
+{ 'fechaEntrada': new Date('2004-06-14T14:13:39Z'), 'fechaSalida': new Date('2004-08-29T14:13:39Z'), 'numPersonas': 4 , 'estado':false , 'precioReserva': 797701.72, 'docUsuario' : '892706161' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('1998-10-19T07:15:53Z'), 'fechaSalida': new Date('1998-12-16T07:15:53Z'), 'numPersonas': 4 , 'estado':false , 'precioReserva': 745355.12, 'docUsuario' : '047875601' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('1998-02-10T04:50:53Z'), 'fechaSalida': new Date('1998-10-23T04:50:53Z'), 'numPersonas': 5 , 'estado':true , 'precioReserva': 625048.98, 'docUsuario' : '038748751' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('1990-11-13T19:50:12Z'), 'fechaSalida': new Date('1990-12-28T19:50:12Z'), 'numPersonas': 4 , 'estado':false , 'precioReserva': 505219.4, 'docUsuario' : '370281350' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('2009-04-20T06:13:24Z'), 'fechaSalida': new Date('2009-12-11T06:13:24Z'), 'numPersonas': 6 , 'estado':true , 'precioReserva': 729914.69, 'docUsuario' : '609150086' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('2010-01-27T18:22:34Z'), 'fechaSalida': new Date('2010-11-02T18:22:34Z'), 'numPersonas': 3 , 'estado':false , 'precioReserva': 425408.53, 'docUsuario' : '803726586' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('2024-09-18T15:22:37Z'), 'fechaSalida': new Date('2024-12-18T15:22:37Z'), 'numPersonas': 3 , 'estado':false , 'precioReserva': 741474.92, 'docUsuario' : '403284119' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('2024-01-20T02:38:36Z'), 'fechaSalida': new Date('2024-03-28T02:38:36Z'), 'numPersonas': 3 , 'estado':true , 'precioReserva': 122063.43, 'docUsuario' : '238955679' , 'consumos':[] ,'habitacionId': ObjectId('132342') },
+{ 'fechaEntrada': new Date('1998-11-04T02:15:51Z'), 'fechaSalida': new Date('1998-12-30T02:15:51Z'), 'numPersonas': 4 , 'estado':false , 'precioReserva': 144007.77, 'docUsuario' : '611988032' , 'consumos':[] ,'habitacionId': ObjectId('132342') }
+]);
+
+sin habitacion:
+db.reservas.insertMany([ 
+{ 'fechaEntrada': new Date('2019-06-14T11:38:01Z'), 'fechaSalida': new Date('2019-09-25T11:38:01Z'), 'numPersonas': 5 , 'estado':false , 'precioReserva': 42699.63, 'docUsuario' : '213479631' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('1997-05-14T08:46:08Z'), 'fechaSalida': new Date('1997-09-29T08:46:08Z'), 'numPersonas': 4 , 'estado':false , 'precioReserva': 552795.08, 'docUsuario' : '391108716' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('1991-05-02T06:00:38Z'), 'fechaSalida': new Date('1991-11-23T06:00:38Z'), 'numPersonas': 1 , 'estado':false , 'precioReserva': 298227.1, 'docUsuario' : '476690356' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('2012-07-31T20:58:17Z'), 'fechaSalida': new Date('2012-10-09T20:58:17Z'), 'numPersonas': 6 , 'estado':false , 'precioReserva': 633453.28, 'docUsuario' : '168383974' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('2002-09-08T20:41:09Z'), 'fechaSalida': new Date('2002-12-29T20:41:09Z'), 'numPersonas': 3 , 'estado':false , 'precioReserva': 523997.78, 'docUsuario' : '344730415' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('2021-07-27T12:12:06Z'), 'fechaSalida': new Date('2021-10-30T12:12:06Z'), 'numPersonas': 6 , 'estado':false , 'precioReserva': 325555.24, 'docUsuario' : '126462872' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('2022-06-05T12:22:56Z'), 'fechaSalida': new Date('2022-08-15T12:22:56Z'), 'numPersonas': 5 , 'estado':false , 'precioReserva': 470564.64, 'docUsuario' : '639483711' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('1997-08-22T07:22:30Z'), 'fechaSalida': new Date('1997-11-09T07:22:30Z'), 'numPersonas': 2 , 'estado':true , 'precioReserva': 62635.3, 'docUsuario' : '062263408' , 'consumos':[]  },
+{ 'fechaEntrada': new Date('2020-12-16T03:53:06Z'), 'fechaSalida': new Date('2020-12-29T03:53:06Z'), 'numPersonas': 3 , 'estado':false , 'precioReserva': 488153.25, 'docUsuario' : '759014576' , 'consumos':[]  }
+]);
+
+
+consumos:
+db.consumos.insertOne({'id': '0', 'fecha':new Date('2011-12-06T15:41:04Z'), 'precio': 266416.22  ,'idReserva': ObjectId('1')});
+db.reservas.update({_id: ObjectId('1') },{$push: { consumos: '0' } });
+db.consumos.insertOne({'id': '1', 'fecha':new Date('2001-11-22T03:57:20Z'), 'precio': 849964.5  ,'idReserva': ObjectId('1')});
+db.reservas.update({_id: ObjectId('1') },{$push: { consumos: '1' } });
+db.consumos.insertOne({'id': '2', 'fecha':new Date('2006-04-30T16:43:07Z'), 'precio': 627209.5  ,'idReserva': ObjectId('1')});
+db.reservas.update({_id: ObjectId('1') },{$push: { consumos: '2' } });
+db.consumos.insertOne({'id': '3', 'fecha':new Date('2000-02-29T21:54:03Z'), 'precio': 44330.49  ,'idReserva': ObjectId('1')});
+db.reservas.update({_id: ObjectId('1') },{$push: { consumos: '3' } });
+db.consumos.insertOne({'id': '4', 'fecha':new Date('2020-01-20T00:45:10Z'), 'precio': 33158.55  ,'idReserva': ObjectId('1')});
+db.reservas.update({_id: ObjectId('1') },{$push: { consumos: '4' } });
+
+
+real:
+db.consumos.insertMany([ 
+{  'fecha':new Date('2018-03-02T18:20:14Z'), 'precio': 279426.56  },
+{  'fecha':new Date('2007-06-20T21:34:15Z'), 'precio': 257023.98  },
+{  'fecha':new Date('2019-12-15T13:55:56Z'), 'precio': 574603.65  },
+{  'fecha':new Date('2006-04-12T07:05:14Z'), 'precio': 679786.36  }
+]);

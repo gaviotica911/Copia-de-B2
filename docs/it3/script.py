@@ -82,9 +82,9 @@ class Reservas:
     
 
 class Consumos:
-    def __init__(self, id):
+    def __init__(self):
   
-        self.id = id
+        
         fecha=fecha_inicial + (fecha_final - fecha_inicial) * random.random() 
         
         self.fecha=fecha.strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -98,8 +98,9 @@ class Consumos:
         return self.fecha
         
     def sql_add(self):
-        a= f"'id': '{self.id}', 'fecha':new Date('{self.fecha}'), 'precio': {self.precio}  ,'idReserva': ObjectId('{self.idReserva}')"
-        return ("db.consumos.insertOne({"+ a+     "});")
+       # a= f"'id': '{self.id}', 'fecha':new Date('{self.fecha}'), 'precio': {self.precio} "   #" ,'idReserva': ObjectId('{self.idReserva}')"
+        #return ("db.consumos.insertOne({"+ a+     "});")
+        return  f" 'fecha':new Date('{self.fecha}'), 'precio': {self.precio} "  
     def add_consumo(self):
         
         a=f"_id: ObjectId('{self.idReserva}') "
@@ -164,6 +165,8 @@ class Mercado:
         
 # Function to generate fake data and print SQL insert statements
 def populate(n):
+    
+    """
     for i in range(1, n + 1):
         x = Habitacion(i)
         print(x.sql_add())
@@ -184,15 +187,23 @@ def populate(n):
             print("{", x.sql_add(), "}")
         
     print("]);")
+    
+    """
+    print("db.consumos.insertMany([ ")
+ 
        
     for i in range(n):
-      
-            x = Consumos(i)
-            print( x.sql_add())
-    
-            print(x.add_consumo())
+        if i<n-2:
+            x = Consumos()
+           
+            print("{", x.sql_add(), "},")
+        elif i==n-1:
+            x = Consumos()
+           
+            print("{", x.sql_add(), "}")
         
-
+    print("]);")
+    """
     
     for i in range(1, n + 1):
         x = Producto()
@@ -208,8 +219,7 @@ def populate(n):
     
         print(x.sql_add())
    
-   
-
+"""
       
 def populateTipos(n):
     for i in range(1, n + 1):
@@ -223,4 +233,4 @@ def populateTipos(n):
 
 # Call the populate function to generate data for 10 users
 
-populate(10)
+populate(100)
